@@ -2001,6 +2001,10 @@ file-filter	Templates	Шаблоны
 	Edit Script…	Редактировать скрипт…
 	Create a New Script…	Создать новый скрипт…
 	Create New Folder…	Создать новую папку…
+	Script Folders	Папки скриптов
+	Manage Script Folders…	Управление папками скриптов…
+	Add Folder…	Добавить папку…
+	New Folder	Новая папка
 	Show / Hide Console	Показать / скрыть консоль
 	Run a tool script to assign it to this tool button	Запустите скрипт инструмента, чтобы назначить его этой кнопке
 	PaperCraft	PaperCraft
@@ -5196,6 +5200,8 @@ liquify-list-end	{0}, {1}	{0} и {1}
 @msg	Optimize to File Size: there is no image to measure	Оптимизировать по размеру файла: нет изображения для измерения
 @msg	Running scripts needs the desktop app	Для запуска скриптов нужно настольное приложение
 @msg	choose a scripts folder first	сначала выберите папку скриптов
+@msg	{_1} already exists	{_1} уже существует
+@msg	{name}: not a file name	{name}: это не имя файла
 @msg	missing code	нет кода
 @msg	too many untitled scripts	слишком много безымянных скриптов
 @msg	missing path	нет пути

@@ -2016,6 +2016,10 @@ file-filter	Templates	Modelli
 	Edit Script…	Modifica script…
 	Create a New Script…	Crea un nuovo script…
 	Create New Folder…	Crea nuova cartella…
+	Script Folders	Cartelle degli script
+	Manage Script Folders…	Gestisci cartelle degli script…
+	Add Folder…	Aggiungi cartella…
+	New Folder	Nuova cartella
 	Show / Hide Console	Mostra / nascondi console
 	Run a tool script to assign it to this tool button	Esegui uno script di strumento per assegnarlo a questo pulsante
 	PaperCraft	PaperCraft
@@ -5201,6 +5205,8 @@ liquify-list-end	{0}, {1}	{0} e {1}
 @msg	Optimize to File Size: there is no image to measure	Ottimizza in base alle dimensioni del file: non c'è nessuna immagine da misurare
 @msg	Running scripts needs the desktop app	L'esecuzione di script richiede l'app desktop
 @msg	choose a scripts folder first	scegli prima una cartella di script
+@msg	{_1} already exists	{_1} esiste già
+@msg	{name}: not a file name	{name}: non è un nome di file
 @msg	missing code	codice mancante
 @msg	too many untitled scripts	troppi script senza titolo
 @msg	missing path	percorso mancante

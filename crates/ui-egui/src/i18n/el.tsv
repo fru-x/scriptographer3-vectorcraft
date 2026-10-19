@@ -1884,6 +1884,10 @@ font-technology	Variable	Μεταβλητές
 	Edit Script…	Επεξεργασία σεναρίου…
 	Create a New Script…	Δημιουργία νέου σεναρίου…
 	Create New Folder…	Δημιουργία νέου φακέλου…
+	Script Folders	Φάκελοι σεναρίων
+	Manage Script Folders…	Διαχείριση φακέλων σεναρίων…
+	Add Folder…	Προσθήκη φακέλου…
+	New Folder	Νέος φάκελος
 	Show / Hide Console	Εμφάνιση / απόκρυψη κονσόλας
 	Run a tool script to assign it to this tool button	Εκτελέστε ένα σενάριο εργαλείου για να το αντιστοιχίσετε σε αυτό το κουμπί
 	PaperCraft	PaperCraft
@@ -2900,6 +2904,8 @@ liquify-list-end	{0}, {1}	{0} και {1}
 @msg	Optimize to File Size: there is no image to measure	Βελτιστοποίηση σε μέγεθος αρχείου: δεν υπάρχει εικόνα για μέτρηση
 @msg	Running scripts needs the desktop app	Η εκτέλεση σεναρίων απαιτεί την εφαρμογή υπολογιστή
 @msg	choose a scripts folder first	επιλέξτε πρώτα φάκελο σεναρίων
+@msg	{_1} already exists	Το {_1} υπάρχει ήδη
+@msg	{name}: not a file name	{name}: δεν είναι όνομα αρχείου
 @msg	missing code	λείπει ο κώδικας
 @msg	too many untitled scripts	πάρα πολλά σενάρια χωρίς τίτλο
 @msg	missing path	λείπει η διαδρομή

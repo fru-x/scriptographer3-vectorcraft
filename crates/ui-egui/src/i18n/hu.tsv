@@ -2420,6 +2420,10 @@ file-filter	Templates	Sablonok
 	Edit Script…	Szkript szerkesztése…
 	Create a New Script…	Új szkript létrehozása…
 	Create New Folder…	Új mappa létrehozása…
+	Script Folders	Szkriptmappák
+	Manage Script Folders…	Szkriptmappák kezelése…
+	Add Folder…	Mappa hozzáadása…
+	New Folder	Új mappa
 	Show / Hide Console	Konzol megjelenítése / elrejtése
 	Run a tool script to assign it to this tool button	Futtasson egy eszközszkriptet, hogy ehhez az eszközgombhoz rendelje
 	PaperCraft	PaperCraft
@@ -6351,6 +6355,8 @@ liquify-list-end	{0}, {1}	{0} és {1}
 @msg	Optimize to File Size: there is no image to measure	Optimalizálás fájlméretre: nincs mérhető kép
 @msg	Running scripts needs the desktop app	A szkriptek futtatása az asztali alkalmazásban érhető el
 @msg	choose a scripts folder first	először válasszon szkriptmappát
+@msg	{_1} already exists	{_1} már létezik
+@msg	{name}: not a file name	{name}: nem fájlnév
 @msg	missing code	hiányzik a kód
 @msg	too many untitled scripts	túl sok névtelen szkript
 @msg	missing path	hiányzik az útvonal

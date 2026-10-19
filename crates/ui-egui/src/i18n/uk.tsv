@@ -2010,6 +2010,10 @@ file-filter	Templates	Шаблони
 	Edit Script…	Редагувати скрипт…
 	Create a New Script…	Створити новий скрипт…
 	Create New Folder…	Створити нову теку…
+	Script Folders	Теки скриптів
+	Manage Script Folders…	Керувати теками скриптів…
+	Add Folder…	Додати теку…
+	New Folder	Нова тека
 	Show / Hide Console	Показати / сховати консоль
 	Run a tool script to assign it to this tool button	Запустіть скрипт інструмента, щоб призначити його цій кнопці
 	PaperCraft	PaperCraft
@@ -5185,6 +5189,8 @@ liquify-list-end	{0}, {1}	{0} і {1}
 @msg	Optimize to File Size: there is no image to measure	Оптимізувати за розміром файлу: немає зображення для вимірювання
 @msg	Running scripts needs the desktop app	Для запуску скриптів потрібна настільна програма
 @msg	choose a scripts folder first	спочатку виберіть теку скриптів
+@msg	{_1} already exists	{_1} уже існує
+@msg	{name}: not a file name	{name}: це не назва файлу
 @msg	missing code	немає коду
 @msg	too many untitled scripts	забагато скриптів без назви
 @msg	missing path	немає шляху
