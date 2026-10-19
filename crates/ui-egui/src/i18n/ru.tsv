@@ -5201,6 +5201,7 @@ liquify-list-end	{0}, {1}	{0} и {1}
 @msg	Optimize to File Size: there is no image to measure	Оптимизировать по размеру файла: нет изображения для измерения
 @msg	Running scripts needs the desktop app	Для запуска скриптов нужно настольное приложение
 @msg	choose a scripts folder first	сначала выберите папку скриптов
+@msg	the script's document is closed	документ скрипта закрыт
 @msg	{_1} already exists	{_1} уже существует
 @msg	{name}: not a file name	{name}: это не имя файла
 @msg	missing code	нет кода

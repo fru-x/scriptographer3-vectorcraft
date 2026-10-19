@@ -5615,6 +5615,7 @@ imageTrace	Outline	Contour
 @msg	Optimize to File Size: there is no image to measure	Optimaliseren naar bestandsgrootte: er is geen afbeelding om te meten
 @msg	Running scripts needs the desktop app	Scripts uitvoeren heeft de desktop-app nodig
 @msg	choose a scripts folder first	kies eerst een scriptmap
+@msg	the script's document is closed	het document van het script is gesloten
 @msg	{_1} already exists	{_1} bestaat al
 @msg	{name}: not a file name	{name}: geen bestandsnaam
 @msg	missing code	code ontbreekt

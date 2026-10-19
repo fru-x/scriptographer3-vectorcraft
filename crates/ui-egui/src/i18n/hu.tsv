@@ -6356,6 +6356,7 @@ liquify-list-end	{0}, {1}	{0} és {1}
 @msg	Optimize to File Size: there is no image to measure	Optimalizálás fájlméretre: nincs mérhető kép
 @msg	Running scripts needs the desktop app	A szkriptek futtatása az asztali alkalmazásban érhető el
 @msg	choose a scripts folder first	először válasszon szkriptmappát
+@msg	the script's document is closed	a szkript dokumentuma be van zárva
 @msg	{_1} already exists	{_1} már létezik
 @msg	{name}: not a file name	{name}: nem fájlnév
 @msg	missing code	hiányzik a kód

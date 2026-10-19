@@ -5206,6 +5206,7 @@ liquify-list-end	{0}, {1}	{0} e {1}
 @msg	Optimize to File Size: there is no image to measure	Ottimizza in base alle dimensioni del file: non c'è nessuna immagine da misurare
 @msg	Running scripts needs the desktop app	L'esecuzione di script richiede l'app desktop
 @msg	choose a scripts folder first	scegli prima una cartella di script
+@msg	the script's document is closed	il documento dello script è chiuso
 @msg	{_1} already exists	{_1} esiste già
 @msg	{name}: not a file name	{name}: non è un nome di file
 @msg	missing code	codice mancante

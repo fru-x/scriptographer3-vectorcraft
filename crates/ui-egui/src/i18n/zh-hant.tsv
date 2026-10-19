@@ -2669,6 +2669,7 @@ file-filter	Templates	範本
 @msg	Optimize to File Size: there is no image to measure	最佳化至檔案大小：沒有可測量的影像
 @msg	Running scripts needs the desktop app	執行指令碼需要桌面應用程式
 @msg	choose a scripts folder first	請先選擇指令碼資料夾
+@msg	the script's document is closed	指令碼的文件已關閉
 @msg	{_1} already exists	{_1} 已存在
 @msg	{name}: not a file name	{name}：不是檔案名稱
 @msg	missing code	沒有程式碼

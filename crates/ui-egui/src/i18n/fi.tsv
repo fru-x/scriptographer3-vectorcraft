@@ -5420,6 +5420,7 @@ liquify-list-end	{0}, {1}	{0} ja {1}
 @msg	Optimize to File Size: there is no image to measure	Optimoi tiedostokokoon: mitattavaa kuvaa ei ole
 @msg	Running scripts needs the desktop app	Komentosarjojen suorittaminen vaatii työpöytäsovelluksen
 @msg	choose a scripts folder first	valitse ensin komentosarjakansio
+@msg	the script's document is closed	komentosarjan asiakirja on suljettu
 @msg	{_1} already exists	{_1} on jo olemassa
 @msg	{name}: not a file name	{name}: ei ole tiedostonimi
 @msg	missing code	koodi puuttuu

@@ -5323,6 +5323,7 @@ imageTrace	Outline	轮廓
 @msg	Optimize to File Size: there is no image to measure	优化到文件大小：没有可测量的图像
 @msg	Running scripts needs the desktop app	运行脚本需要桌面应用
 @msg	choose a scripts folder first	请先选择脚本文件夹
+@msg	the script's document is closed	脚本的文档已关闭
 @msg	{_1} already exists	{_1} 已存在
 @msg	{name}: not a file name	{name}：不是文件名
 @msg	missing code	缺少代码

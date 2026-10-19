@@ -6057,6 +6057,7 @@ liquify-list-end	{0}, {1}	{0} và {1}
 @msg	Optimize to File Size: there is no image to measure	Tối ưu theo kích thước tệp: không có ảnh để đo
 @msg	Running scripts needs the desktop app	Chạy tập lệnh cần ứng dụng máy tính
 @msg	choose a scripts folder first	hãy chọn thư mục tập lệnh trước
+@msg	the script's document is closed	tài liệu của tập lệnh đã đóng
 @msg	{_1} already exists	{_1} đã tồn tại
 @msg	{name}: not a file name	{name}: không phải tên tệp
 @msg	missing code	thiếu mã

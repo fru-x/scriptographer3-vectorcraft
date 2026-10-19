@@ -5612,6 +5612,7 @@ imageTrace	Outline	Kontur
 @msg	Optimize to File Size: there is no image to measure	Optimalkan ke Ukuran File: tidak ada gambar untuk diukur
 @msg	Running scripts needs the desktop app	Menjalankan skrip memerlukan aplikasi desktop
 @msg	choose a scripts folder first	pilih folder skrip terlebih dahulu
+@msg	the script's document is closed	dokumen skrip sudah ditutup
 @msg	{_1} already exists	{_1} sudah ada
 @msg	{name}: not a file name	{name}: bukan nama file
 @msg	missing code	kode tidak ada

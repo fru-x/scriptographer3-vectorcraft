@@ -2905,6 +2905,7 @@ liquify-list-end	{0}, {1}	{0} και {1}
 @msg	Optimize to File Size: there is no image to measure	Βελτιστοποίηση σε μέγεθος αρχείου: δεν υπάρχει εικόνα για μέτρηση
 @msg	Running scripts needs the desktop app	Η εκτέλεση σεναρίων απαιτεί την εφαρμογή υπολογιστή
 @msg	choose a scripts folder first	επιλέξτε πρώτα φάκελο σεναρίων
+@msg	the script's document is closed	το έγγραφο του σεναρίου είναι κλειστό
 @msg	{_1} already exists	Το {_1} υπάρχει ήδη
 @msg	{name}: not a file name	{name}: δεν είναι όνομα αρχείου
 @msg	missing code	λείπει ο κώδικας
