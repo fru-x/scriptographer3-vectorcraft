@@ -2081,6 +2081,14 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "",
         "{} make the PaperCraft Tool the active tool, when a tool script is assigned to it (its onActivate runs) → {active}",
     ),
+    ("ui.scriptographerReveal", "Show in Folder", "", "{path} show a PaperCraft script or folder in the system file manager (desktop)"),
+    ("ui.scriptographerPaperReference", "Paper.js Reference…", "", "{} open the Paper.js reference (paperjs.org) in the browser"),
+    (
+        "ui.papercraftAbout",
+        "About PaperCraft…",
+        "",
+        "{} open About PaperCraft (dialog `papercraftAbout`): the Paper.js logo and version, credits and links",
+    ),
     (
         "ui.scriptographerFolders",
         "Manage Script Folders…",
