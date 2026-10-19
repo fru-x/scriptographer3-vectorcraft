@@ -812,6 +812,7 @@ macOS cursor delivery (#2292) is narrowed to a native host adapter using the exi
 
 ## G6 Automation and scripting
 
+- **Done (2026-10-20, feature/scripting):** PaperCraft, Paper.js scripting after Scriptographer: PaperScript on the document (threads of their own; V8, the browser's engine, Boa), one undo step per run through `document.patch`, animations that go on while the user edits, tool scripts with mouse and key events, `Dialog` and `Palette`, the PaperCraft panel and console. Not Illustrator's ExtendScript, so the scripting entry below stays open and the estimate is unchanged.
 - **Missing:** the document object model for scripts and the `#engine` script directive (#1183 is
   open). File › Scripts › Other Script… and `script.run` run JavaScript files over the command registry, `#targetengine`
   runs a script in a named engine whose globals last between runs,
@@ -1152,6 +1153,7 @@ trap, and the defaults (0.25 pt, 100%, 40%) are VectorCraft's own, the pages giv
 | 2026-10-19 | minor | G13: tangent and perpendicular snapping for lines drawn from an anchor (Pen, Curvature, Line Segment, with Smart Guides on), View › Snapping with every snap option, and the `view.snapping` command (#2530); estimate unchanged |
 | 2026-10-18 | minor | G11: Shape Builder on art of thousands of segments (traced outlines, type outlines): lines cut it again past 4,096 segments, where the planar map used to give up and the tool offered whole shapes (#937's reproduced case; the planar map's edge-source and face lookups were quadratic in the segments, now indexed, and the cap is 65,536); estimate unchanged until confirmed on the reporter's file |
 | 2026-10-18 | minor | G11: Shape Builder Gap Detection (#2523): Shape Builder Tool Options with a Gap Length of Small, Medium, Large or Custom bridges small gaps between open paths for the regions they bound; the other Shape Builder options stay missing. The stale gap line on deleting an interior anchor of an open path is removed (the behaviour was already implemented). Estimates unchanged |
+| 2026-10-20 | minor | G6: PaperCraft (Paper.js scripting) noted as done; ExtendScript stays open, estimate unchanged. |
 | 2026-10-19 | minor | G1: the tool cursors, drawn in code, noted as design debt: they belong in SVG files like the icons. About 4–6 h, outside the G1 estimate; scores and hours unchanged. |
 | 2026-10-18 | minor | Mirror Repeat shows its axis when selected (#2877): drag the line or center handle to move it, drag an end handle to rotate it (Shift: 45°), Escape cancels and each drag is one undo step. Engine and headless canvas gesture regressions passed; native move, rotation and Escape screenshots reviewed. Formatting, Clippy, WASM and repository checks passed; the undo label reuses translated Repeat Options. (#2877) Scores and hours unchanged. |
 | 2026-10-18 | minor | Bounding-box handles take priority where a selected Mirror Repeat axis crosses them; a Top-handle regression confirms scaling of the default repeat. Center and end handles retain their move and rotation behavior. G1 scope and estimate unchanged. |
