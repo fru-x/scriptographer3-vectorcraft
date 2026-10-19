@@ -6333,6 +6333,7 @@ liquify-list-end	{0}, {1}	{0} és {1}
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	a `use` értéke `allSlices`, `eachSlice` vagy `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	a `slice` egy szeletszám a `slice.list` listából, `use: currentSlice` mellett
 @msg	Optimize to File Size: there is no image to measure	Optimalizálás fájlméretre: nincs mérhető kép
+@msg	Running scripts needs the desktop app	A szkriptek futtatása az asztali alkalmazásban érhető el
 @msg	print settings are not an object	a nyomtatási beállítások nem objektumot alkotnak
 @msg	printing isn't available here	itt nem lehet nyomtatni
 @msg	range `{s}` is empty	a tartomány üres: `{s}`

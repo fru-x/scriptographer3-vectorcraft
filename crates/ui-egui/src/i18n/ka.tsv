@@ -6955,6 +6955,7 @@ font-technology	Variable	ცვლადი
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` არის `allSlices`, `eachSlice` ან `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` არის ნაჭრის ნომერი `slice.list`-დან, `use: currentSlice`-თან ერთად
 @msg	Optimize to File Size: there is no image to measure	ფაილის ზომაზე ოპტიმიზაცია: გასაზომი გამოსახულება არ არის
+@msg	Running scripts needs the desktop app	სკრიპტების გაშვებას დესკტოპის აპი სჭირდება
 @msg	Release Guides: no guides	დამხმარე ხაზების მოხსნა: დამხმარე ხაზები არ არის
 @msg	Release: no layer to put the rectangle in	მოხსნა: მართკუთხედის ჩასასმელი შრე არ არის
 @msg	Replace Spine: select a blend and a path	ხერხემლის ჩანაცვლება: მონიშნეთ გადასვლა და ტრაექტორია

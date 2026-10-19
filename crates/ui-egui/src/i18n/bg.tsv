@@ -4774,6 +4774,7 @@ axis	Both	И двете
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` е `allSlices`, `eachSlice` или `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` е номер на откъс от `slice.list`, заедно с `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Оптимизиране до размер на файла: няма изображение за измерване
+@msg	Running scripts needs the desktop app	Изпълнението на скриптове изисква настолното приложение
 @msg	Release Guides: no guides	Освобождаване на водачи: няма водачи
 @msg	Release: no layer to put the rectangle in	Освобождаване: няма слой, в който да се постави правоъгълникът
 @msg	Replace Spine: select a blend and a path	Замяна на оста: изберете плавно преливане и път

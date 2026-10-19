@@ -5288,6 +5288,7 @@ liquify-list-end	{0}, {1}	{0} i {1}
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` to `allSlices`, `eachSlice` lub `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` to numer plasterka z `slice.list`, z `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Optymalizuj do rozmiaru pliku: brak obrazu do zmierzenia
+@msg	Running scripts needs the desktop app	Uruchamianie skryptów wymaga aplikacji desktopowej
 @msg	Release Guides: no guides	Uwolnij linie pomocnicze: brak linii pomocniczych
 @msg	Release: no layer to put the rectangle in	Uwolnij: brak warstwy, na której można umieścić prostokąt
 @msg	Replace Spine: select a blend and a path	Zastąp grzbiet: zaznacz przejście i ścieżkę

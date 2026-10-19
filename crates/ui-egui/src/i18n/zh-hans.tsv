@@ -5300,6 +5300,7 @@ imageTrace	Outline	轮廓
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` 为 `allSlices`、`eachSlice` 或 `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` 是 `slice.list` 中的切片编号，需配合 `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	优化到文件大小：没有可测量的图像
+@msg	Running scripts needs the desktop app	运行脚本需要桌面应用
 @msg	no file system here	此处没有文件系统
 @msg	nothing to preview	没有可预览的内容
 @msg	Saved {n} files beside {path}	已在 {path} 旁保存 {n} 个文件

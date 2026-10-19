@@ -5592,6 +5592,7 @@ imageTrace	Outline	Contour
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` is `allSlices`, `eachSlice` of `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` is een slicenummer uit `slice.list`, met `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Optimaliseren naar bestandsgrootte: er is geen afbeelding om te meten
+@msg	Running scripts needs the desktop app	Scripts uitvoeren heeft de desktop-app nodig
 @msg	Release Guides: no guides	Hulplijnen vrijgeven: geen hulplijnen
 @msg	Release: no layer to put the rectangle in	Vrijgeven: geen laag om de rechthoek in te plaatsen
 @msg	Replace Spine: select a blend and a path	Ruggengraat vervangen: selecteer een mengsel en een pad

@@ -6034,6 +6034,7 @@ liquify-list-end	{0}, {1}	{0} và {1}
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` là `allSlices`, `eachSlice` hoặc `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` là số lát cắt từ `slice.list`, đi cùng `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Tối ưu theo kích thước tệp: không có ảnh để đo
+@msg	Running scripts needs the desktop app	Chạy tập lệnh cần ứng dụng máy tính
 @msg	print settings are not an object	cài đặt in không phải là đối tượng
 @msg	printing isn't available here	in không khả dụng ở đây
 @msg	range `{s}` is empty	phạm vi `{s}` trống

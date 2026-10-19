@@ -5561,6 +5561,7 @@ variable-list-end	{0}, {1}	{0} 및 {1}
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use`는 `allSlices`, `eachSlice` 또는 `currentSlice`입니다
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice`는 `slice.list`의 분할 번호이며 `use: currentSlice`와 함께 씁니다
 @msg	Optimize to File Size: there is no image to measure	파일 크기에 맞게 최적화: 측정할 이미지가 없습니다
+@msg	Running scripts needs the desktop app	스크립트를 실행하려면 데스크톱 앱이 필요합니다
 @msg	no file system here	여기에는 파일 시스템이 없습니다
 @msg	nothing to preview	미리 볼 항목이 없습니다
 @msg	Saved {n} files beside {path}	{path} 옆에 파일 {n}개를 저장했습니다

@@ -81,6 +81,7 @@ vectorcraft-affinity = { path = "crates/affinity" }
 vectorcraft-scriptcheck = { path = "crates/scriptcheck" }
 vectorcraft-js = { path = "crates/js" }
 vectorcraft-apischema = { path = "crates/apischema" }
+vectorcraft-papercraft = { path = "crates/papercraft" }
 
 # foundation
 kurbo = { version = "0.13", features = ["serde"] }

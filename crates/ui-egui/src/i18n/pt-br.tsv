@@ -4438,6 +4438,7 @@ axis	Both	Ambos
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` é `allSlices`, `eachSlice` ou `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` é um número de fatia de `slice.list`, com `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Otimizar para tamanho de arquivo: não há imagem para medir
+@msg	Running scripts needs the desktop app	Executar scripts exige o aplicativo para desktop
 @msg	Release Guides: no guides	Liberar guias: não há guias
 @msg	Release: no layer to put the rectangle in	Liberar: não há camada para colocar o retângulo
 @msg	Replace Spine: select a blend and a path	Substituir coluna: selecione uma mesclagem e um traçado

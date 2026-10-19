@@ -5183,6 +5183,7 @@ liquify-list-end	{0}, {1}	{0} e {1}
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` è `allSlices`, `eachSlice` o `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` è un numero di sezione da `slice.list`, con `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Ottimizza in base alle dimensioni del file: non c'è nessuna immagine da misurare
+@msg	Running scripts needs the desktop app	L'esecuzione di script richiede l'app desktop
 @msg	Release Guides: no guides	Rilascia guide: nessuna guida
 @msg	Release: no layer to put the rectangle in	Rilascia: nessun livello in cui inserire il rettangolo
 @msg	Replace Spine: select a blend and a path	Sostituisci dorsale: seleziona una fusione e un tracciato

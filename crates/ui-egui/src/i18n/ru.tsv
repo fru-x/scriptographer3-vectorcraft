@@ -5178,6 +5178,7 @@ liquify-list-end	{0}, {1}	{0} и {1}
 @msg	`use` is `allSlices`, `eachSlice` or `currentSlice`	`use` принимает значения `allSlices`, `eachSlice` или `currentSlice`
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` задаёт номер фрагмента из `slice.list`, вместе с `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Оптимизировать по размеру файла: нет изображения для измерения
+@msg	Running scripts needs the desktop app	Для запуска скриптов нужно настольное приложение
 @msg	Release Guides: no guides	Освобождение направляющих: нет направляющих
 @msg	Release: no layer to put the rectangle in	Освобождение: нет слоя для помещения прямоугольника
 @msg	Replace Spine: select a blend and a path	Замена остова: выделите переход и контур
