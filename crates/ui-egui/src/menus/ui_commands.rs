@@ -2076,6 +2076,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ),
     ("ui.scriptographerEdit", "Edit Script…", "", "{path} open a PaperCraft script in the system's editor for its kind of file"),
     (
+        "ui.scriptographerTool",
+        "PaperCraft Tool",
+        "",
+        "{} make the PaperCraft Tool the active tool, when a tool script is assigned to it (its onActivate runs) → {active}",
+    ),
+    (
         "ui.scriptographerFolders",
         "Manage Script Folders…",
         "",

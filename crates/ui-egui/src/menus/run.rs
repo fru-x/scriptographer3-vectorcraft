@@ -1239,6 +1239,10 @@ fn run_ui_part13(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<Result
         "ui.scriptographerNewScript" => crate::scripts::new_script(app, p),
         "ui.scriptographerNewFolder" => crate::scripts::new_folder(app, p),
         "ui.scriptographerEdit" => crate::scripts::edit_script(app, p),
+        "ui.scriptographerTool" => {
+            app.scripts.select_tool();
+            Ok(json!({ "active": app.scripts.active_tool().is_some() }))
+        }
         "ui.scriptographerFolders" => {
             crate::dialogs::script_folders::open(app);
             Ok(Value::Null)
