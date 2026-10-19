@@ -2048,9 +2048,14 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "ui.scriptographerRun",
         "Run Script…",
         "",
-        "{path?: a .js file} run a PaperScript file on the active document with PaperCraft, as one undo step (the last console.log line shows in the status bar); a script with onFrame or an interval keeps running until ui.scriptographerStop; without a path pick one → {changed, running}",
+        "{path?: a .js file} run a PaperScript file on the active document with PaperCraft, as one undo step (the last console.log line shows in the status bar); a script with onFrame or an interval keeps running until ui.scriptographerStop; without a path pick one → {changed, running, tool}, or {started: true} when it is still working after 2 s (it goes on, on its own thread)",
     ),
-    ("ui.scriptographerStop", "Stop Running Scripts", "Cmd+.", "{} stop the PaperCraft scripts that keep running (onFrame, intervals) → {stopped}"),
+    (
+        "ui.scriptographerStop",
+        "Stop Running Scripts",
+        "Cmd+.",
+        "{} stop the PaperCraft scripts that keep running (onFrame, intervals) or are still working, mid-loop → {stopped}",
+    ),
     (
         "ui.scriptographerEvaluate",
         "Evaluate Script",
