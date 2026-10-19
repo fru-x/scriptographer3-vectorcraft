@@ -3832,6 +3832,7 @@ theme	Appearance	Ulkoasu
 	Compare with Image	Vertaa kuvaan
 	Inspect Document	Tarkastele asiakirjaa
 	Inspect Object	Tarkastele objektia
+	Patch Document	Käytä asiakirjan korjausta
 	Begin Undo Group	Aloita kumoamisryhmä
 	End Undo Group	Lopeta kumoamisryhmä
 	Apply Effect	Käytä tehostetta
