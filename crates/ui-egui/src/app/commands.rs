@@ -454,6 +454,7 @@ impl VectorcraftApp {
     /// Select a tool (also used by the toolbar and shortcuts). A choice that fails shows its error
     /// in the status bar.
     pub fn select_tool(&mut self, id: &str) {
+        self.scripts.deselect_tool();
         if let Err(e) = self.try_select_tool(id) {
             self.ui.status = e;
         }

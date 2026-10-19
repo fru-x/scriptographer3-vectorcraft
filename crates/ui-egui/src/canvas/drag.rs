@@ -380,6 +380,10 @@ pub(crate) fn end_art_move(app: &mut VectorcraftApp, ctx: &egui::Context) {
 
 /// Send a pointer event to the active tool and act on UI requests (dialogs, tool switches).
 pub fn dispatch(app: &mut VectorcraftApp, ev: &PointerEvent, view: vectorcraft_engine::ViewInfo) {
+    // A PaperCraft tool script, while it is the active tool, has the event instead.
+    if crate::scripts::pointer(app, ev) {
+        return;
+    }
     if ev.kind == PointerKind::Down && crate::panels::image_trace::discard_stale_ignore_click(app) {
         return;
     }
