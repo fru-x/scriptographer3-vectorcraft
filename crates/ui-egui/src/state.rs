@@ -720,6 +720,9 @@ pub struct UiState {
     pub action_sets_selected: Vec<usize>,
     /// The folder the PaperCraft panel lists scripts from.
     pub papercraft_folder: Option<String>,
+    /// Where the user put PaperCraft scripts' palettes, by script and palette title
+    /// ([`crate::scripts::palettes`]): a palette opens there again.
+    pub papercraft_palettes: std::collections::BTreeMap<String, [f32; 2]>,
     /// The Actions panel shows its actions as buttons (panel menu › Button Mode,
     /// [`crate::panels::actions::button_mode`]) instead of its list; kept with the UI preferences,
     /// and off in preferences saved without it.
@@ -1387,6 +1390,7 @@ impl Default for UiState {
             action_sets: crate::panels::actions::default_sets(),
             action_set: None,
             papercraft_folder: None,
+            papercraft_palettes: Default::default(),
             action_sets_selected: vec![],
             action_button_mode: false,
             recording: None,
