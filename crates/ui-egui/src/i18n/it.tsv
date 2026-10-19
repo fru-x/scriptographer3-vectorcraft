@@ -2005,6 +2005,14 @@ file-filter	Templates	Modelli
 	Patch Document	Applica patch al documento
 	Run Script…	Esegui script…
 	Stop Running Scripts	Interrompi script in esecuzione
+	Evaluate Script	Valuta script
+	New Script	Nuovo script
+	PaperCraft Console	Console PaperCraft
+	Choose Scripts Folder…	Scegli cartella degli script…
+	Choose the folder your scripts are in.	Scegli la cartella in cui si trovano i tuoi script.
+	Clear Console	Pulisci console
+	Reload	Ricarica
+	Run Script	Esegui script
 	PaperCraft	PaperCraft
 	Install Plug-in	Installa plug-in
 	Install Plug-in…	Installa plug-in…
@@ -5187,6 +5195,9 @@ liquify-list-end	{0}, {1}	{0} e {1}
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` è un numero di sezione da `slice.list`, con `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Ottimizza in base alle dimensioni del file: non c'è nessuna immagine da misurare
 @msg	Running scripts needs the desktop app	L'esecuzione di script richiede l'app desktop
+@msg	choose a scripts folder first	scegli prima una cartella di script
+@msg	missing code	codice mancante
+@msg	too many untitled scripts	troppi script senza titolo
 @msg	Release Guides: no guides	Rilascia guide: nessuna guida
 @msg	Release: no layer to put the rectangle in	Rilascia: nessun livello in cui inserire il rettangolo
 @msg	Replace Spine: select a blend and a path	Sostituisci dorsale: seleziona una fusione e un tracciato

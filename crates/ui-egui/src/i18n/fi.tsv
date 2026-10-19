@@ -3835,6 +3835,14 @@ theme	Appearance	Ulkoasu
 	Patch Document	Käytä asiakirjan korjausta
 	Run Script…	Suorita komentosarja…
 	Stop Running Scripts	Pysäytä käynnissä olevat komentosarjat
+	Evaluate Script	Arvioi komentosarja
+	New Script	Uusi komentosarja
+	PaperCraft Console	PaperCraft-konsoli
+	Choose Scripts Folder…	Valitse komentosarjakansio…
+	Choose the folder your scripts are in.	Valitse kansio, jossa komentosarjasi ovat.
+	Clear Console	Tyhjennä konsoli
+	Reload	Lataa uudelleen
+	Run Script	Suorita komentosarja
 	PaperCraft	PaperCraft
 	Begin Undo Group	Aloita kumoamisryhmä
 	End Undo Group	Lopeta kumoamisryhmä
@@ -5401,6 +5409,9 @@ liquify-list-end	{0}, {1}	{0} ja {1}
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` on siivun numero luettelosta `slice.list`, kun `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Optimoi tiedostokokoon: mitattavaa kuvaa ei ole
 @msg	Running scripts needs the desktop app	Komentosarjojen suorittaminen vaatii työpöytäsovelluksen
+@msg	choose a scripts folder first	valitse ensin komentosarjakansio
+@msg	missing code	koodi puuttuu
+@msg	too many untitled scripts	liikaa nimettömiä komentosarjoja
 @msg	Release Guides: no guides	Vapauta apuviivat: ei apuviivoja
 @msg	Release: no layer to put the rectangle in	Vapauta: ei tasoa, johon suorakulmion voisi sijoittaa
 @msg	Replace Spine: select a blend and a path	Korvaa selkäranka: valitse sulautus ja polku

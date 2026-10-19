@@ -2302,6 +2302,14 @@ digits	Hindi	Hindi
 	Patch Document	Áp dụng bản vá tài liệu
 	Run Script…	Chạy tập lệnh…
 	Stop Running Scripts	Dừng các tập lệnh đang chạy
+	Evaluate Script	Đánh giá tập lệnh
+	New Script	Tập lệnh mới
+	PaperCraft Console	Bảng điều khiển PaperCraft
+	Choose Scripts Folder…	Chọn thư mục tập lệnh…
+	Choose the folder your scripts are in.	Chọn thư mục chứa các tập lệnh của bạn.
+	Clear Console	Xóa bảng điều khiển
+	Reload	Tải lại
+	Run Script	Chạy tập lệnh
 	PaperCraft	PaperCraft
 	Install Plug-in	Cài đặt plug-in
 	Install Plug-in…	Cài đặt plug-in…
@@ -6038,6 +6046,9 @@ liquify-list-end	{0}, {1}	{0} và {1}
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` là số lát cắt từ `slice.list`, đi cùng `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Tối ưu theo kích thước tệp: không có ảnh để đo
 @msg	Running scripts needs the desktop app	Chạy tập lệnh cần ứng dụng máy tính
+@msg	choose a scripts folder first	hãy chọn thư mục tập lệnh trước
+@msg	missing code	thiếu mã
+@msg	too many untitled scripts	quá nhiều tập lệnh không tên
 @msg	print settings are not an object	cài đặt in không phải là đối tượng
 @msg	printing isn't available here	in không khả dụng ở đây
 @msg	range `{s}` is empty	phạm vi `{s}` trống

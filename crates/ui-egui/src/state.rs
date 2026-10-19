@@ -245,6 +245,8 @@ pub const ICON_PANELS: &[(&str, &str, &str)] = &[
     (crate::panels::learn::ID, "Learn", "graduation-cap"),
     (crate::panels::discover::ID, "VectorCraft Help…", "search"),
     (crate::panels::retype::ID, "Retype", "type"),
+    (crate::panels::papercraft::ID, "PaperCraft", "file-code"),
+    (crate::panels::papercraft_console::ID, "PaperCraft Console", "terminal"),
     (crate::addons::cleanup::ID, "Artwork Cleanup", "sparkles"),
     (crate::addons::color::ID, "Color Effects", "sun"),
     (crate::addons::packaging::ID, "Fold Lines", "scissors"),
@@ -270,6 +272,7 @@ pub const ICON_PANEL_GROUPS: &[&[&str]] = &[
     &["character", "paragraph", "glyphs"],
     &["history", "actions", "info", "navigator"],
     &["variables"],
+    &["papercraft", "papercraftConsole"],
 ];
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -715,6 +718,8 @@ pub struct UiState {
     /// Shift-click on a set's name added. Delete Selection deletes them. Not saved.
     #[serde(skip)]
     pub action_sets_selected: Vec<usize>,
+    /// The folder the PaperCraft panel lists scripts from.
+    pub papercraft_folder: Option<String>,
     /// The Actions panel shows its actions as buttons (panel menu › Button Mode,
     /// [`crate::panels::actions::button_mode`]) instead of its list; kept with the UI preferences,
     /// and off in preferences saved without it.
@@ -1381,6 +1386,7 @@ impl Default for UiState {
             about: false,
             action_sets: crate::panels::actions::default_sets(),
             action_set: None,
+            papercraft_folder: None,
             action_sets_selected: vec![],
             action_button_mode: false,
             recording: None,

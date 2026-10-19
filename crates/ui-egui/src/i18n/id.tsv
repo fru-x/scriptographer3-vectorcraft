@@ -4245,6 +4245,14 @@ theme	Appearance	Tampilan
 	Patch Document	Terapkan patch dokumen
 	Run Script…	Jalankan Skrip…
 	Stop Running Scripts	Hentikan Skrip yang Berjalan
+	Evaluate Script	Evaluasi Skrip
+	New Script	Skrip Baru
+	PaperCraft Console	Konsol PaperCraft
+	Choose Scripts Folder…	Pilih Folder Skrip…
+	Choose the folder your scripts are in.	Pilih folder tempat skrip Anda berada.
+	Clear Console	Bersihkan Konsol
+	Reload	Muat Ulang
+	Run Script	Jalankan Skrip
 	PaperCraft	PaperCraft
 	Begin Undo Group	Mulai grup urungkan
 	End Undo Group	Akhiri grup urungkan
@@ -5593,6 +5601,9 @@ imageTrace	Outline	Kontur
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` adalah nomor slice dari `slice.list`, dengan `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Optimalkan ke Ukuran File: tidak ada gambar untuk diukur
 @msg	Running scripts needs the desktop app	Menjalankan skrip memerlukan aplikasi desktop
+@msg	choose a scripts folder first	pilih folder skrip terlebih dahulu
+@msg	missing code	kode tidak ada
+@msg	too many untitled scripts	terlalu banyak skrip tanpa judul
 @msg	Release Guides: no guides	Lepaskan panduan: tidak ada panduan
 @msg	Release: no layer to put the rectangle in	Lepaskan: tidak ada lapisan untuk menaruh persegi panjangnya
 @msg	Replace Spine: select a blend and a path	Ganti rangka: pilih satu blend dan satu jalur

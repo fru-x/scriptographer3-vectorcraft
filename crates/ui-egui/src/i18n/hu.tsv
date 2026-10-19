@@ -2409,6 +2409,14 @@ file-filter	Templates	Sablonok
 	Patch Document	Dokumentumjavítás alkalmazása
 	Run Script…	Szkript futtatása…
 	Stop Running Scripts	Futó szkriptek leállítása
+	Evaluate Script	Szkript kiértékelése
+	New Script	Új szkript
+	PaperCraft Console	PaperCraft-konzol
+	Choose Scripts Folder…	Szkriptmappa kiválasztása…
+	Choose the folder your scripts are in.	Válassza ki a szkriptjeit tartalmazó mappát.
+	Clear Console	Konzol törlése
+	Reload	Újratöltés
+	Run Script	Szkript futtatása
 	PaperCraft	PaperCraft
 	Install Plug-in	Bővítmény telepítése
 	Install Plug-in…	Bővítmény telepítése…
@@ -6337,6 +6345,9 @@ liquify-list-end	{0}, {1}	{0} és {1}
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	a `slice` egy szeletszám a `slice.list` listából, `use: currentSlice` mellett
 @msg	Optimize to File Size: there is no image to measure	Optimalizálás fájlméretre: nincs mérhető kép
 @msg	Running scripts needs the desktop app	A szkriptek futtatása az asztali alkalmazásban érhető el
+@msg	choose a scripts folder first	először válasszon szkriptmappát
+@msg	missing code	hiányzik a kód
+@msg	too many untitled scripts	túl sok névtelen szkript
 @msg	print settings are not an object	a nyomtatási beállítások nem objektumot alkotnak
 @msg	printing isn't available here	itt nem lehet nyomtatni
 @msg	range `{s}` is empty	a tartomány üres: `{s}`

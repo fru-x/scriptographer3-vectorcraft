@@ -1990,6 +1990,14 @@ file-filter	Templates	Шаблоны
 	Patch Document	Применить патч документа
 	Run Script…	Запустить скрипт…
 	Stop Running Scripts	Остановить выполняемые скрипты
+	Evaluate Script	Вычислить скрипт
+	New Script	Новый скрипт
+	PaperCraft Console	Консоль PaperCraft
+	Choose Scripts Folder…	Выбрать папку скриптов…
+	Choose the folder your scripts are in.	Выберите папку, в которой лежат ваши скрипты.
+	Clear Console	Очистить консоль
+	Reload	Перезагрузить
+	Run Script	Запустить скрипт
 	PaperCraft	PaperCraft
 	Install Plug-in	Установить модуль
 	Install Plug-in…	Установить модуль…
@@ -5182,6 +5190,9 @@ liquify-list-end	{0}, {1}	{0} и {1}
 @msg	`slice` is a slice number from `slice.list`, with `use: currentSlice`	`slice` задаёт номер фрагмента из `slice.list`, вместе с `use: currentSlice`
 @msg	Optimize to File Size: there is no image to measure	Оптимизировать по размеру файла: нет изображения для измерения
 @msg	Running scripts needs the desktop app	Для запуска скриптов нужно настольное приложение
+@msg	choose a scripts folder first	сначала выберите папку скриптов
+@msg	missing code	нет кода
+@msg	too many untitled scripts	слишком много безымянных скриптов
 @msg	Release Guides: no guides	Освобождение направляющих: нет направляющих
 @msg	Release: no layer to put the rectangle in	Освобождение: нет слоя для помещения прямоугольника
 @msg	Replace Spine: select a blend and a path	Замена остова: выделите переход и контур

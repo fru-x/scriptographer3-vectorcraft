@@ -1235,6 +1235,8 @@ fn run_ui_part13(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<Result
         "ui.checkScript" => crate::dialogs::script_check::command(app, p),
         "ui.scriptographerRun" => crate::scripts::run(app, p),
         "ui.scriptographerStop" => crate::scripts::stop(app),
+        "ui.scriptographerEvaluate" => crate::scripts::evaluate(app, p),
+        "ui.scriptographerNewScript" => crate::scripts::new_script(app, p),
         "ui.runScript" => crate::dialogs::script_run::command(app, p),
         crate::scripts_menu::COMMAND => crate::scripts_menu::run(app, p),
         "ui.perspectiveGridDialog" => crate::dialogs::perspective_grid::open(app),
