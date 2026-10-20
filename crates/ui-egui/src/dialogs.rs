@@ -91,7 +91,6 @@ pub mod object_mosaic;
 pub mod objects_on_path_options;
 pub mod office_export;
 pub mod package;
-pub(crate) mod papercraft_about;
 pub mod para_style_options;
 pub(crate) mod path_ops;
 pub mod pathfinder_options;
@@ -134,6 +133,7 @@ pub(crate) mod script;
 pub mod script_check;
 pub(crate) mod script_folders;
 pub mod script_run;
+pub(crate) mod scriptographer_about;
 pub mod shape_builder_options;
 pub(crate) mod shapes;
 pub mod shortcut_import;
@@ -356,7 +356,7 @@ registry! {
     BrushReplaceArt: [brush_replace_art::KIND] => brush_replace_art::SPEC,
     Message: [confirm::MESSAGE] => confirm::MESSAGE_SPEC,
     ScriptDialog: [script::KIND] => script::SPEC,
-    PapercraftAbout: [papercraft_about::KIND] => papercraft_about::SPEC,
+    ScriptographerAbout: [scriptographer_about::KIND] => scriptographer_about::SPEC,
     ScriptFolders: [script_folders::KIND] => script_folders::SPEC,
     NewScriptFolder: [script_folders::NEW_FOLDER] => script_folders::NEW_FOLDER_SPEC,
     Replace: [confirm::REPLACE] => confirm::REPLACE_SPEC,

@@ -65,7 +65,7 @@ pub const TABLE: &[(&str, Class)] = &[
     ("scriptcheck", Class::Standalone),
     ("js", Class::Standalone),
     ("apischema", Class::Standalone),
-    ("papercraft", Class::Layer(6)),
+    ("scriptographer", Class::Layer(6)),
 ];
 
 /// Explicit orderings *within* a layer (earlier may be used by later).
@@ -80,7 +80,7 @@ pub const INTRA_LAYER_ORDER: &[&[&str]] = &[
     &["text", "effects"],
     &["render", "eps"],
     // Scripts run from the app's menus.
-    &["papercraft", "ui-egui"],
+    &["scriptographer", "ui-egui"],
     &["metafile", "eps"],
     // Non-native art in Illustrator editing data is a PDF, drawn by the PDF importer.
     &["pdf", "eps"],
