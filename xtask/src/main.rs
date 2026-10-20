@@ -292,6 +292,19 @@ fn doctest_packages(select: &[String], shown: &str) -> Result<(), String> {
     run(c, &format!("cargo test {shown} --doc"))
 }
 
+/// Scriptographer's JavaScript (`crates/scriptographer/js`): formatted with Prettier and Penere,
+/// and the bundles in its `dist/` built from its sources. Needs Node 24 or newer and pnpm.
+fn cmd_scriptographer_js() -> Result<(), String> {
+    let folder = root().join("crates/scriptographer/js");
+    for args in [&["install", "--frozen-lockfile"][..], &["run", "check"]] {
+        let mut c = Command::new("pnpm");
+        c.current_dir(&folder).args(args);
+        let line = format!("pnpm {} (in crates/scriptographer/js; needs Node 24+ and pnpm)", args.join(" "));
+        run(c, &line)?;
+    }
+    Ok(())
+}
+
 /// One `cargo xtask ci` step: its name and what it runs.
 type Step = (&'static str, Box<dyn Fn() -> Result<(), String>>);
 
@@ -457,6 +470,7 @@ fn ci_steps() -> Vec<Step> {
                 run(c, "cargo test -p vectorcraft-ui-egui --no-default-features --test install_fonts")
             }),
         ),
+        ("scriptographer-js", Box::new(cmd_scriptographer_js)),
         ("pdf-deps", Box::new(|| pdf_deps::run(&root()))),
         ("assets", Box::new(|| assets::run(&root()))),
         ("brands", Box::new(|| brands::run(&root()))),

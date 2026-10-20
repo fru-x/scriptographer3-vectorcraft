@@ -82,5 +82,6 @@ For the crates you changed: `cargo fmt`, `cargo clippy -p <crate> --all-targets`
 - Crash handling: `vectorcraft_engine::guard` wraps every entry point. Hostile-input tests: `crates/engine/tests/{import_fuzz,command_sweep}.rs`, `crates/format/tests/prop_format.rs`, `crates/mcp/tests/protocol_props.rs`.
 - Large corpora: [storytold/photocraft-corpus](https://github.com/storytold/photocraft-corpus), fetched pinned and sha256-verified.
 - Run: `cargo run --release -p vectorcraft -- --control 7979 [file]` (JSON lines on `127.0.0.1:7979`). `vectorcraft-cli perf` and `bench FILE` check performance budgets.
+- Scriptographer, a JavaScript scripting engine, departs from rule 11: what scripts see is written in JS (`crates/scriptographer/js/`) where that makes more sense than native Rust, as Paper.js itself is.
 - Contributor credits: `docs/contributors.md`.
 - `plan/` is an optional gitignored notebook.
