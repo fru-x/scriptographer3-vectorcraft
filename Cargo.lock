@@ -7621,6 +7621,7 @@ dependencies = [
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-engine",
+ "vectorcraft-format",
  "vectorcraft-geom 0.24.1",
  "wasm-bindgen",
  "web-sys",
