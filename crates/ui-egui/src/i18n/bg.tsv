@@ -8075,3 +8075,6 @@ breakText	Glyphs	Глифи
 # #5804 native-picked raster editor (draft translations; native review welcome).
 	Edit Original with:	Редактиране на оригинала с:
 file-filter	Applications	Приложения
+	The script asks for a file to open.	Скриптът иска файл за отваряне.
+	The script asks where to save a file.	Скриптът пита къде да запише файл.
+	The script asks for a folder.	Скриптът иска папка.

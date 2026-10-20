@@ -10896,3 +10896,6 @@ breakText	Glyphs	Glifák
 # #5804 native-picked raster editor (draft translations; native review welcome).
 	Edit Original with:	Eredeti szerkesztése ezzel:
 file-filter	Applications	Alkalmazások
+	The script asks for a file to open.	A szkript egy megnyitandó fájlt kér.
+	The script asks where to save a file.	A szkript azt kérdezi, hová mentsen egy fájlt.
+	The script asks for a folder.	A szkript egy mappát kér.

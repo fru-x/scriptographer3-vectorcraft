@@ -8791,3 +8791,6 @@ breakText	Glyphs	Glyph
 # #5804 native-picked raster editor (draft translations; native review welcome).
 	Edit Original with:	Chỉnh sửa bản gốc bằng:
 file-filter	Applications	Ứng dụng
+	The script asks for a file to open.	Script yêu cầu một tệp để mở.
+	The script asks where to save a file.	Script hỏi nơi lưu một tệp.
+	The script asks for a folder.	Script yêu cầu một thư mục.

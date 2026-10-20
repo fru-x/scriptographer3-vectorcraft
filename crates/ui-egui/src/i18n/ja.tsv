@@ -10646,3 +10646,6 @@ breakText	Glyphs	字形
 # #5804 native-picked raster editor (draft translations; native review welcome).
 	Edit Original with:	元のファイルを編集するアプリ:
 file-filter	Applications	アプリケーション
+	The script asks for a file to open.	スクリプトが開くファイルを求めています。
+	The script asks where to save a file.	スクリプトがファイルの保存先を尋ねています。
+	The script asks for a folder.	スクリプトがフォルダーを求めています。

@@ -10546,3 +10546,6 @@ breakText	Glyphs	글리프
 # #5804 native-picked raster editor (draft translations; native review welcome).
 	Edit Original with:	원본 편집 앱:
 file-filter	Applications	응용 프로그램
+	The script asks for a file to open.	스크립트가 열 파일을 요청합니다.
+	The script asks where to save a file.	스크립트가 파일을 저장할 위치를 묻습니다.
+	The script asks for a folder.	스크립트가 폴더를 요청합니다.

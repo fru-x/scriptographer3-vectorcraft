@@ -11033,3 +11033,6 @@ digits	Hindi	Hindi
 # #5804 native-picked raster editor (draft translations; native review welcome).
 	Edit Original with:	Redigera original med:
 file-filter	Applications	Program
+	The script asks for a file to open.	Skriptet ber om en fil att öppna.
+	The script asks where to save a file.	Skriptet frågar var en fil ska sparas.
+	The script asks for a folder.	Skriptet ber om en mapp.

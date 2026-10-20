@@ -10835,3 +10835,6 @@ breakText	Glyphs	Glifos
 # #5804 native-picked raster editor (draft translations; native review welcome).
 	Edit Original with:	Editar original con:
 file-filter	Applications	Aplicaciones
+	The script asks for a file to open.	El script pide un archivo para abrir.
+	The script asks where to save a file.	El script pregunta dónde guardar un archivo.
+	The script asks for a folder.	El script pide una carpeta.

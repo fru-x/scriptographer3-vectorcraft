@@ -10907,3 +10907,6 @@ breakText	Glyphs	Glyfy
 # #5804 native-picked raster editor (draft translations; native review welcome).
 	Edit Original with:	Upravit originál v:
 file-filter	Applications	Aplikace
+	The script asks for a file to open.	Skript žádá soubor k otevření.
+	The script asks where to save a file.	Skript se ptá, kam uložit soubor.
+	The script asks for a folder.	Skript žádá složku.
