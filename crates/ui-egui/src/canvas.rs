@@ -88,8 +88,8 @@ use tool_overlays::{
 };
 pub(crate) use view::animated_zoom;
 pub(crate) use view::drag_rotation;
-pub use view::fit;
 use view::scroll_bars;
+pub use view::{PointerTimes, fit};
 #[cfg(test)]
 use view::{ScrollRest, Span, scroll_by, scroll_spans, scroll_tracks};
 

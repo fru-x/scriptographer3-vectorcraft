@@ -7,7 +7,7 @@ use super::single_instance;
 use super::windows_stylus;
 use super::{App, VectorcraftApp, file_access, window};
 #[cfg(target_os = "macos")]
-use super::{mac_menu, mac_window, open_documents};
+use super::{mac_menu, mac_pointer_times, mac_window, open_documents};
 use vectorcraft_ui_egui::dialogs::safe_mode;
 use vectorcraft_ui_egui::hang_beacon::{self, BEACON, FrameTime, Stage};
 
@@ -67,6 +67,10 @@ impl eframe::App for App {
         // A pen contact with the barrel button held presses the secondary button (Windows Ink).
         #[cfg(windows)]
         windows_stylus::raw_input_hook(raw);
+        #[cfg(target_os = "macos")]
+        {
+            self.app.pointer_times = mac_pointer_times::take(vectorcraft_ui_egui::now_secs());
+        }
         // The characters Alt + keypad codes typed (#5108).
         #[cfg(windows)]
         super::windows_alt_codes::raw_input_hook(raw);
