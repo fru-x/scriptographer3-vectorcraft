@@ -812,7 +812,7 @@ macOS cursor delivery (#2292) is narrowed to a native host adapter using the exi
 
 ## G6 Automation and scripting
 
-- **Done (2026-10-20, feature/scripting):** PaperCraft, Paper.js scripting after Scriptographer: PaperScript on the document (threads of their own; V8, the browser's engine, Boa), one undo step per run through `document.patch`, animations that go on while the user edits, tool scripts with mouse and key events, `Dialog` and `Palette`, the PaperCraft panel and console. Not Illustrator's ExtendScript, so the scripting entry below stays open and the estimate is unchanged.
+- **Done (2026-10-20, feature/scripting):** PaperCraft, Paper.js scripting after Scriptographer: PaperScript on the document (threads of their own; V8, the browser's engine, Boa), one undo step per run through `document.patch`, animations that go on while the user edits, tool scripts with mouse and key events (with the system's event times, for `event.velocity`), `Dialog` with its file and colour dialogs, `Palette` with menus, `File`, timers, `project.artboards`, the PaperCraft panel and console. Not Illustrator's ExtendScript, so the scripting entry below stays open and the estimate is unchanged.
 - **Missing:** the document object model for scripts and the `#engine` script directive (#1183 is
   open). File › Scripts › Other Script… and `script.run` run JavaScript files over the command registry, `#targetengine`
   runs a script in a named engine whose globals last between runs,
