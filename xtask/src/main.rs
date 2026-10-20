@@ -20,6 +20,7 @@ mod test262;
 mod ui_commands;
 mod version;
 mod web_fonts;
+mod wpt_corpus;
 
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode};
@@ -44,10 +45,11 @@ commands:
   ci warm         build what every shard builds, without running it (fills the gate's cache)
   shards          list the crates each shard tests; fails when a member is in no shard or in two,
                   or builds with other features in its shard than in the whole workspace
-  corpus [--download | --affinity | --scripts]
+  corpus [--download | --affinity | --scripts | --wpt]
                   show where test corpora live; --download fetches PngSuite into corpus/pngsuite,
                   --affinity the pinned public Affinity documents into corpus/affinity, --scripts
-                  the pinned public scripts of xtask/script-corpus.txt into corpus/scripts
+                  the pinned public scripts of xtask/script-corpus.txt into corpus/scripts, --wpt
+                  the pinned web-platform-tests PaperCraft runs into corpus/wpt
   bundle          build dist/VectorCraft.app (macOS) with assets/app-icon/vectorcraft.icns
   ico <out.ico> <png>...
                   pack PNGs into a Windows .ico (used by packaging/icons.sh)
@@ -473,7 +475,8 @@ fn cmd_corpus_args(rest: &[&str]) -> Result<(), String> {
         ["--download"] => cmd_corpus(true),
         ["--affinity"] => affinity_corpus::fetch(),
         ["--scripts"] => script_corpus::fetch(),
-        _ => Err(format!("`corpus` takes at most one of --download, --affinity and --scripts, got `{}`\n\n{USAGE}", rest.join(" "))),
+        ["--wpt"] => wpt_corpus::fetch(),
+        _ => Err(format!("`corpus` takes at most one of --download, --affinity, --scripts and --wpt, got `{}`\n\n{USAGE}", rest.join(" "))),
     }
 }
 
@@ -501,6 +504,8 @@ Tests that use a corpus skip cleanly when it is absent.
                      with its repository's license file, sha256 verified (xtask/script-corpus.txt):
                      the script host's headless pass rate. Fetch: cargo xtask corpus --scripts;
                      run: cargo xtask scripts --pass-rate
+  corpus/wpt/        web-platform-tests (BSD-3-Clause) at a pinned commit, sha256 verified: the
+                     browser APIs' conformance tests for PaperCraft. Fetch: cargo xtask corpus --wpt
 ",
         corpus.display()
     );
