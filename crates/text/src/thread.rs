@@ -68,23 +68,29 @@ fn slice_paras(paras: &[ParaStyle], first: usize, runs: &[TextRun]) -> Vec<ParaS
     (first..first + n).map(|i| paras.get(i).cloned().unwrap_or_else(|| fallback.clone())).collect()
 }
 
-/// How many bytes of `probe`'s runs fit in it (whole lines; a following break space or paragraph
-/// break stays with the line that ends there, but on a path, where a space with no room
-/// overflows as any character does, it starts the next frame), and for area type that overflows,
+/// How many bytes of `probe`'s runs fit in it ([`fitted`]), and for area type that overflows,
 /// where its first line that does not fit starts.
 fn fit(db: &FontDb, probe: &TextObject) -> (usize, Option<usize>) {
     #[cfg(test)]
     FIT_BYTES.set(FIT_BYTES.get() + runs_len(&probe.runs));
     let lay = layout(db, probe);
     let text: String = probe.runs.iter().map(|r| r.text.as_str()).collect();
-    if !lay.overflow {
-        return (text.len(), None);
+    let unplaced = (lay.overflow && !lay.on_path).then(|| lay.lines.last().map_or(0, |l| l.end));
+    (fitted(&lay, &text), unplaced)
+}
+
+/// How many bytes of `text` its `layout` in a frame shows: whole lines, and a break space or
+/// paragraph break that follows stays with the line that ends there, but on a path, where a
+/// space with no room overflows as any character does, it starts the next frame. The next frame
+/// of a thread starts there.
+pub fn fitted(layout: &crate::TextLayout, text: &str) -> usize {
+    if !layout.overflow {
+        return text.len();
     }
-    let mut end = lay.lines.last().map_or(0, |l| l.end);
-    if lay.on_path {
-        return (end, None);
+    let mut end = layout.lines.last().map_or(0, |l| l.end);
+    if layout.on_path {
+        return end;
     }
-    let unplaced = end;
     let bytes = text.as_bytes();
     while end < bytes.len() && bytes[end] == b' ' {
         end += 1;
@@ -92,7 +98,7 @@ fn fit(db: &FontDb, probe: &TextObject) -> (usize, Option<usize>) {
     if end < bytes.len() && bytes[end] == b'\n' {
         end += 1;
     }
-    (end, Some(unplaced))
+    end
 }
 
 #[cfg(test)]
