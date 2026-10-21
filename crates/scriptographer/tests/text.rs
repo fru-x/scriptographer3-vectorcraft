@@ -89,6 +89,14 @@ fn lines_come_from_the_documents_layout<E: Engine>() {
     assert_eq!(output[2], "true", "all of it visible");
 }
 
+/// Text the script didn't change is laid out as the document has it, without its JSON.
+fn lays_out_unchanged_text_from_the_document<E: Engine>() {
+    let (mut s, _, _, area) = document();
+    let lines = vectorcraft_text::layout(vectorcraft_text::FontDb::global(), &text(&s, area)).lines.len();
+    let output = run::<E>(&mut s, &format!("console.log(project.host.layOut(null, 0, {}).lines.length)", area.0));
+    assert_eq!(output, [lines.to_string()]);
+}
+
 fn writes_text_back_as_one_undo_step<E: Engine>() {
     let (mut s, _, point, _) = document();
     let before = s.execute("document.json", &json!({})).unwrap();
@@ -140,7 +148,12 @@ fn the_composer_keeps_its_family<E: Engine>() {
     s.execute("text.setFormat", &json!({"ids": [area.0], "composer": "standardEveryLine"})).unwrap();
     let output = run::<E>(
         &mut s,
-        &format!("var area = project.getItemByKey({})\n console.log(area.paragraphs[0].composer)\n area.paragraphs[0].composer = 'line'", area.0),
+        &format!(
+            "var area = project.getItemByKey({})
+ console.log(area.paragraphs[0].composer)
+ area.paragraphs[0].composer = 'line'",
+            area.0
+        ),
     );
     assert_eq!(output, ["paragraph"]);
     assert_eq!(text(&s, area).para.composer, Composer::StandardSingleLine);
@@ -195,6 +208,11 @@ macro_rules! engine_tests {
             #[test]
             fn lines_come_from_the_documents_layout() {
                 super::lines_come_from_the_documents_layout::<$engine>();
+            }
+
+            #[test]
+            fn lays_out_unchanged_text_from_the_document() {
+                super::lays_out_unchanged_text_from_the_document::<$engine>();
             }
 
             #[test]
