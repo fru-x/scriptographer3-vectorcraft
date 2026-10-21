@@ -1017,6 +1017,15 @@ pub(crate) fn new_area_fit(s: &Session, p: &Value, c: &str, t: &mut TextObject) 
     Ok(())
 }
 
+impl Session {
+    /// The character style new type gets with no params ([`new_type_style`]): Scriptographer's new
+    /// text takes its fill.
+    pub fn new_type_style(&self) -> CharStyle {
+        // No params, so no size to refuse.
+        new_type_style(self, &Value::Null, "text.create").unwrap_or_default()
+    }
+}
+
 /// The character style new type gets: `size`, `font`, `style` and `color` from `p` (an RGB
 /// `color` in a CMYK document as [`super::paint::new_color`] stores it), else
 /// `[Normal Character Style]`'s (the default font, size and black fill unless redefined;
