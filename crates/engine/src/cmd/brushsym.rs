@@ -48,8 +48,8 @@ use dynamic::{symbol_instance_reset, symbol_instance_select_part, symbol_instanc
 use symbolism::symbol_set_density;
 use symbols::selected_instances;
 pub(crate) use symbols::{
-    Placement, expand_instances_under, expandable_instances, instance_in_place, natural_size, normalize, place_xf, set_natural_size, store_symbol,
-    stored_natural_size,
+    Placement, expand_instances_under, expandable_instances, instance_in_place, natural_size, normalize, place_xf, set_natural_size, set_symbol,
+    store_symbol, stored_natural_size,
 };
 use symbols::{
     symbol_adjust, symbol_break_link, symbol_delete, symbol_duplicate, symbol_instance_reset_transform, symbol_list, symbol_new, symbol_options,
