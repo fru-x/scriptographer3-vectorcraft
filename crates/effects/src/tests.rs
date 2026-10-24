@@ -9,6 +9,7 @@ mod imageoutline;
 mod painted;
 mod rasterfollow;
 mod scale;
+mod scripts;
 mod solidcontext;
 mod transformfx;
 mod typestroke;

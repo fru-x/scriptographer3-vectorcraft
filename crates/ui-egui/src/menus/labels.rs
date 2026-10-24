@@ -151,16 +151,21 @@ pub(crate) fn shows_a_name(id: &str, label: &str) -> bool {
         )
         || vectorcraft_engine::cmd::plugin::is_command_id(id)
         || (id == "window.workspace" && !crate::workspaces::is_builtin(label))
-        || (matches!(id, "effect.apply" | "effect.dialog") && vectorcraft_effects::plugin_effects().iter().any(|e| e.label == label))
+        || (matches!(id, "effect.apply" | "effect.dialog")
+            && vectorcraft_effects::plugin_effects().into_iter().chain(vectorcraft_effects::script_effects()).any(|e| e.label == label))
 }
 
 /// Does the menu item `id` with `params` list an installed plug-in (an Object › Plug-ins filter, an
-/// Effect › Plug-ins effect or a File › Open With importer) or one of its commands, by the plug-in's
-/// own text? Told by the item itself, so it holds while another thread installs or removes plug-ins.
-pub(crate) fn lists_plugin(id: &str, params: &Value) -> bool {
+/// Effect › Plug-ins effect or a File › Open With importer) or one of its commands, or a running
+/// script's effect (Effect › Scriptographer), by the text it gives itself? Told by the item itself,
+/// so it holds while another thread installs or removes plug-ins, or a script ends.
+pub(crate) fn lists_plugin_or_script(id: &str, params: &Value) -> bool {
+    use vectorcraft_effects::script::script_type;
+    let effect = params.get("effect").and_then(Value::as_str).unwrap_or_default();
     matches!(id, "plugin.dialog" | "file.openWith")
         || vectorcraft_engine::cmd::plugin::is_command_id(id)
-        || params.get("effect").and_then(Value::as_str).and_then(vectorcraft_plugins::effect::plugin_id).is_some()
+        || vectorcraft_plugins::effect::plugin_id(effect).is_some()
+        || script_type(effect).is_some()
 }
 
 /// The label of a menu item as drawn: [`dynamic_label`] in the UI language. Labels assembled
@@ -348,7 +353,7 @@ pub fn menu_strings() -> std::collections::BTreeSet<String> {
     fn user_data(id: &str, params: &Value) -> bool {
         hidden_when_disabled(id)
             || id.starts_with("type.recentFont")
-            || lists_plugin(id, params)
+            || lists_plugin_or_script(id, params)
             || matches!(id, crate::scripts_menu::COMMAND | crate::dialogs::proof_setup::LOAD)
     }
     fn walk(items: &[Item], under: &str, out: &mut BTreeSet<String>) {

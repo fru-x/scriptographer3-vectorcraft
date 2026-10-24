@@ -2019,7 +2019,7 @@ mod tests {
                     // Items that list an installed plug-in or show a name that is user data come and
                     // go as tests beside this one install plug-ins or add toolbars, and no shortcut or
                     // pick reads them.
-                    menus::Item::Cmd(label, id, p) if !menus::lists_plugin(id, p) && !menus::shows_a_name(id, label) => out.push(it),
+                    menus::Item::Cmd(label, id, p) if !menus::lists_plugin_or_script(id, p) && !menus::shows_a_name(id, label) => out.push(it),
                     _ => {}
                 }
             }

@@ -891,7 +891,7 @@ fn menu_bar_items() -> &'static HashMap<&'static str, Vec<(&'static str, Value)>
 }
 
 /// The (label, params) of each item of the menus `tree`, by command id. Items that list an
-/// installed plug-in ([`menus::lists_plugin`]) or show a name that is user data
+/// installed plug-in ([`menus::lists_plugin_or_script`]) or show a name that is user data
 /// ([`menus::shows_a_name`]: a custom toolbar, a script, a recent file, a saved selection) are left
 /// out: [`menu_bar_items`] is built once, and such items come and go after that.
 fn bar_items(tree: &[(&'static str, Vec<menus::Item>)]) -> HashMap<&'static str, Vec<(&'static str, Value)>> {
@@ -914,7 +914,7 @@ fn bar_items(tree: &[(&'static str, Vec<menus::Item>)]) -> HashMap<&'static str,
 /// Is the menu item with `label` that runs command `id` with params `p` one [`bar_items`] reads: it
 /// lists no installed plug-in and shows no name that is user data?
 fn on_the_bar(id: &str, label: &str, p: &Value) -> bool {
-    !menus::lists_plugin(id, p) && !menus::shows_a_name(id, label)
+    !menus::lists_plugin_or_script(id, p) && !menus::shows_a_name(id, label)
 }
 
 fn is_bare(p: &Value) -> bool {

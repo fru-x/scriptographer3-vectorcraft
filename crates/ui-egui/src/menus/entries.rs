@@ -225,7 +225,7 @@ pub fn insertable(title: &str, label: &str, id: &str, p: &Value) -> bool {
         && !id.starts_with("prefs.")
         && !id.starts_with("action.")
         && ![&RECENT_FONT_IDS[..], &SAVED_SELECTION_IDS[..], &SAVED_VIEW_IDS[..]].iter().any(|ids| ids.contains(&id))
-        && !super::labels::lists_plugin(id, p)
+        && !super::labels::lists_plugin_or_script(id, p)
 }
 
 /// Every menu item that can be a step of an action ([`insertable`]), in menu order. An item that
