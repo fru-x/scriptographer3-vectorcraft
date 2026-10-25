@@ -378,12 +378,7 @@ fn the_composer_keeps_its_family<E: Engine>() {
     s.execute("text.setFormat", &json!({"ids": [area.0], "composer": "standardEveryLine"})).unwrap();
     let output = run::<E>(
         &mut s,
-        &format!(
-            "var area = project.getItemByKey({})
- console.log(area.paragraphs[0].composer)
- area.paragraphs[0].composer = 'line'",
-            area.0
-        ),
+        &format!("var area = project.getItemByKey({})\n console.log(area.paragraphs[0].composer)\n area.paragraphs[0].composer = 'line'", area.0),
     );
     assert_eq!(output, ["paragraph"]);
     assert_eq!(text(&s, area).para.composer, Composer::StandardSingleLine);
