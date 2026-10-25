@@ -139,7 +139,7 @@ pub fn invoke_from_system_menu(app: &mut VectorcraftApp, ctx: &egui::Context, id
             // in a frame whose keys are not this window's.
             app.drop_unwritten_formats();
         }
-        None if id == "select.all" && crate::panels::artboards::selects_all(app, ctx) => crate::panels::artboards::select_all(app),
+        None if id == "select.all" && crate::panels::artboards::selects_all(app) => crate::panels::artboards::select_all(app),
         None => invoke(app, id, p),
     }
 }
