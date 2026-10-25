@@ -1559,7 +1559,10 @@ impl Session {
     /// After `edit.undo` or `edit.redo` (`cmd`), the tool is told first, so the Type tool puts the
     /// caret where the step changed the text.
     pub(crate) fn after_command(&mut self, cmd: Option<&str>) {
-        if self.in_tool_actions || (!self.tool.wants_text() && !matches!(self.tool.id(), "eyedropper" | vectorcraft_tools::curvature_circle::ID)) {
+        if self.in_tool_actions
+            || self.in_background
+            || (!self.tool.wants_text() && !matches!(self.tool.id(), "eyedropper" | vectorcraft_tools::curvature_circle::ID))
+        {
             return;
         }
         if let Some(cmd @ ("edit.undo" | "edit.redo")) = cmd {
@@ -1603,7 +1606,7 @@ impl Session {
     /// `command.batch` began, ended or was rolled back (`batch.begin`, `batch.end`,
     /// `batch.rollBack`), so the Type tool puts back what its Undo and Redo steps changed when it fails.
     pub(crate) fn notify_text_tool(&mut self, what: &str) {
-        if self.in_tool_actions || (!self.tool.wants_text() && self.tool.id() != "eyedropper") {
+        if self.in_tool_actions || self.in_background || (!self.tool.wants_text() && self.tool.id() != "eyedropper") {
             return;
         }
         self.with_tool_cx(self.last_view, |t, cx| t.notify(cx, what));

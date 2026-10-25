@@ -317,6 +317,9 @@ pub struct Session {
     /// While the active tool's actions run: their commands aren't "a command from outside the
     /// tool" ([`Session::after_command`]).
     pub(crate) in_tool_actions: bool,
+    /// While [`Session::execute_in`] runs a command in a document behind the active one: the active
+    /// tool, which works in the active document, stays out of it.
+    pub(crate) in_background: bool,
     /// The warnings of the previews that settling an interaction applied, while a top-level command
     /// or the tool's actions collect them ([`Session::collect_settled_warnings`]).
     settled_warnings: Option<Vec<String>>,
