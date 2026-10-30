@@ -297,7 +297,7 @@ fn doctest_packages(select: &[String], shown: &str) -> Result<(), String> {
 }
 
 /// `cargo xtask scriptographer-core <dir>`: copies what the runtime loads from a checkout of
-/// scriptographer-core (`dist/`, `vendor/`, `NATIVES.md`) into `crates/scriptographer/core`, and
+/// scriptographer-core (`dist/`, `vendor/`, `NATIVES.md`, `LICENSE.txt`) into `crates/scriptographer/core`, and
 /// its commit into `COMMIT`. The checkout must be clean, so the commit names what was copied.
 fn cmd_scriptographer_core(rest: &[&str]) -> Result<(), String> {
     let [from] = rest else { return Err(format!("usage: cargo xtask scriptographer-core <dir>\n\n{USAGE}")) };
@@ -323,6 +323,7 @@ fn cmd_scriptographer_core(rest: &[&str]) -> Result<(), String> {
     }
     let copy = |name: &str| std::fs::copy(from.join(name), to.join(name)).map_err(|e| format!("{name}: {e}"));
     copy("NATIVES.md")?;
+    copy("LICENSE.txt")?;
     std::fs::write(to.join("COMMIT"), format!("{commit}\n")).map_err(|e| format!("COMMIT: {e}"))?;
     eprintln!("copied scriptographer-core {commit}");
     Ok(())
