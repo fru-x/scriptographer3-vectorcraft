@@ -8,18 +8,22 @@ def is_rows(text):
 def resolve(m):
     # In a rebase, the first side is upstream's and the second the commit's.
     upstream, commit = m.group(1), m.group(2)
+    # A diff3 conflict: the base's lines are between upstream's and the commit's.
+    upstream = re.split(r"(?m)^\|\|\|\|\|\|\| [^\n]*\n", upstream)[0]
     # Revision history rows: the commit's, then upstream's.
     if is_rows(upstream) and is_rows(commit):
         return commit + "".join(l for l in upstream.splitlines(True) if l not in commit)
-    # One status line each side: upstream's, with the commit's change item first.
-    if not (upstream.startswith("> **") and commit.startswith("> **") and upstream.count("\n") == 1 and commit.count("\n") == 1):
+    # One status line each side (upstream's may have notes below it): upstream's, with the
+    # commit's change item first.
+    if not (upstream.startswith("> **") and commit.startswith("> **") and commit.count("\n") == 1):
         return m.group(0)
+    upstream, notes = upstream.split("\n", 1)[0] + "\n", upstream.split("\n", 1)[1]
     item = re.search(r"\*\*Change:\*\* (?:minor|major|patch) \((.*?);", commit)
     if not item:
         return m.group(0)
     if item.group(1) in upstream:
-        return upstream
-    return re.sub(r"(\*\*Change:\*\* (?:minor|major|patch) \()", lambda x: x.group(1) + item.group(1) + "; ", upstream, count=1)
+        return upstream + notes
+    return re.sub(r"(\*\*Change:\*\* (?:minor|major|patch) \()", lambda x: x.group(1) + item.group(1) + "; ", upstream, count=1) + notes
 
 conflicted = subprocess.run(["git", "diff", "--name-only", "--diff-filter=U"], capture_output=True, text=True).stdout.split()
 for path in conflicted:

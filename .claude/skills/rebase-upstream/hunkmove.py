@@ -54,6 +54,11 @@ for h in hunks:
     after = [l[1:] for l in h if l[0] in " +"]
     lead = next((i for i, l in enumerate(h) if l[0] != " "), len(h))
     trail = next((i for i, l in enumerate(reversed(h)) if l[0] != " "), len(h))
+    # Already applied (a run of the loop before a stop moved it): its new lines are there and
+    # its old ones aren't.
+    new_text, old_text = "\n".join(after) + "\n", "\n".join(before) + "\n"
+    if any(new_text in t for t in files.values()) and not any(old_text in t for t in files.values()):
+        continue
     found = place(before, after, lead, trail)
     if not found:
         # Inline `mod tests { … }` moved into a file of its own: one indent level less.
