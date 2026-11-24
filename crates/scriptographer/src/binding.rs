@@ -122,7 +122,7 @@ impl<E: Engine> Runtime<E> {
             let host = handle(method(call, &object_class, "create", &[Value::Js(functions.clone())])?, "host")?;
             call.set(&host, "uid", &Value::Number(uid as f64))?;
             binding.borrow_mut().binding.documents.push(Bound { uid, project: project.clone(), doc, selection, artboard: 0 });
-            method(call, &project, "setHost", &[Value::Js(host)])?;
+            call.set(&project, "host", &Value::Js(host))?;
             define_accessor(call, &global, &project, "artboards", artboards, None)?;
             define_accessor(call, &global, &project, "activeArtboard", active_artboard, None)?;
             call.set(&project, "trackChanges", &Value::Bool(true))?;

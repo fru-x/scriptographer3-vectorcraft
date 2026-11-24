@@ -939,7 +939,7 @@ fn writes_new_symbols<E: Engine>() {
     let doc = &s.active().unwrap().doc;
     let names: Vec<&str> = doc.symbols.iter().map(|s| s.name.as_str()).collect();
     assert_eq!(names, ["Box", "Box 2", "New Symbol"]);
-    assert_eq!(doc.symbol("Box 2").unwrap().art.geometric_bounds().unwrap(), Rect::new(-10.0, -5.0, 10.0, 5.0), "Paper.js centres it");
+    assert_eq!(doc.symbol("Box 2").unwrap().art.geometric_bounds().unwrap(), Rect::new(10.0, 10.0, 30.0, 20.0), "Paper.js keeps it in place");
     let added: Vec<_> = doc.layers[0].children().unwrap().iter().rev().take(2).map(|n| n.kind.clone()).collect();
     assert_eq!(
         added,

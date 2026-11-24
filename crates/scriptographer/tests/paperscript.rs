@@ -26,10 +26,10 @@ fn runs_paperscript_with_console_and_paper_globals<E: Engine>() {
     assert_eq!(path["closed"], true);
 
     // A circle of radius 100 around the view's centre (400, 300), drawn with four segments at the
-    // left, top, right and bottom, with handles of 100 · 4(√2 − 1)/3 along the tangents. Each
-    // segment is `[[x, y], [inX, inY], [outX, outY]]`.
+    // right, bottom, left and top, where SVG starts an ellipse, with handles of 100 · 4(√2 − 1)/3
+    // along the tangents. Each segment is `[[x, y], [inX, inY], [outX, outY]]`.
     let k = 100.0 * 4.0 * (2f64.sqrt() - 1.0) / 3.0;
-    let expected = [([300.0, 300.0], [0.0, k]), ([400.0, 200.0], [-k, 0.0]), ([500.0, 300.0], [0.0, -k]), ([400.0, 400.0], [k, 0.0])];
+    let expected = [([500.0, 300.0], [0.0, -k]), ([400.0, 400.0], [k, 0.0]), ([300.0, 300.0], [0.0, k]), ([400.0, 200.0], [-k, 0.0])];
     let segments = path["segments"].as_array().unwrap();
     assert_eq!(segments.len(), 4);
     let number = |v: &Value| v.as_f64().unwrap();
@@ -245,7 +245,7 @@ fn script_errors_show_the_scripts_own_frames() {
     runtime.set_script(&Setup { file: Some(file.to_string_lossy().into()), ..Setup::default() }).unwrap();
     let scope = runtime.create_scope(800.0, 600.0).unwrap();
     // Through Paper.js, whose frames sit between the script's:
-    let fail = "function fail() { paper.Base.each([1], function () { throw new Error('deep') }) }\n";
+    let fail = "function fail() { new Path().on('deep', function () { throw new Error('deep') }).emit('deep') }\n";
     for (source, line) in [(format!("{fail}fail()"), 2), (format!("{fail}await null\nfail()"), 3)] {
         let error = runtime.execute(&scope, &source).unwrap_err().to_string();
         let (message, frames) = error.split_once('\n').unwrap_or((&error, ""));

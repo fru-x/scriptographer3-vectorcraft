@@ -631,7 +631,7 @@ dependencies = [
 [[package]]
 name = "boa_ast"
 version = "0.22.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 dependencies = [
  "bitflags 2.13.2",
  "boa_interner",
@@ -646,7 +646,7 @@ dependencies = [
 [[package]]
 name = "boa_engine"
 version = "0.22.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 dependencies = [
  "aligned-vec",
  "arrayvec",
@@ -698,7 +698,7 @@ dependencies = [
 [[package]]
 name = "boa_gc"
 version = "0.22.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 dependencies = [
  "arrayvec",
  "boa_macros",
@@ -710,7 +710,7 @@ dependencies = [
 [[package]]
 name = "boa_interner"
 version = "0.22.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 dependencies = [
  "boa_gc",
  "boa_macros",
@@ -725,7 +725,7 @@ dependencies = [
 [[package]]
 name = "boa_macros"
 version = "0.22.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 dependencies = [
  "cfg-if",
  "cow-utils",
@@ -738,7 +738,7 @@ dependencies = [
 [[package]]
 name = "boa_parser"
 version = "0.22.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 dependencies = [
  "bitflags 2.13.2",
  "boa_ast",
@@ -755,7 +755,7 @@ dependencies = [
 [[package]]
 name = "boa_string"
 version = "0.22.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 dependencies = [
  "fast-float2",
  "itoa",
@@ -6261,7 +6261,7 @@ dependencies = [
 [[package]]
 name = "small_btree"
 version = "0.1.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 dependencies = [
  "arrayvec",
 ]
@@ -6580,7 +6580,7 @@ dependencies = [
 [[package]]
 name = "tag_ptr"
 version = "0.1.0"
-source = "git+https://github.com/lehni/boa?rev=11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a#11304bd4baeb5c7c5293bfc3f0d350ade16e4a7a"
+source = "git+https://github.com/lehni/boa?rev=4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c#4f81c0801ac0f0a2c1db3e6db40b733b6edc0f1c"
 
 [[package]]
 name = "tap"
