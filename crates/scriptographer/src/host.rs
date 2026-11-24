@@ -491,6 +491,13 @@ fn attributes(node: &Node) -> Map<String, Value> {
     if !node.appearance.effects.is_empty() {
         props.insert("effects".into(), node.appearance.effects.iter().map(effect_json).collect());
     }
+    // The values scripts keep as JSON; others, as from an SVG's data-* attributes, as strings:
+    if let Some(attrs) = &node.extras().attrs
+        && !attrs.data.is_empty()
+    {
+        let data = attrs.data.iter().map(|(key, value)| (key.clone(), serde_json::from_str(value).unwrap_or_else(|_| json!(value))));
+        props.insert("data".into(), Value::Object(data.collect()));
+    }
     props
 }
 

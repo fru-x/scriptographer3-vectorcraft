@@ -1129,6 +1129,34 @@ fn untouched_effects_stay<E: Engine>() {
     assert_eq!(n.appearance.effects, before);
 }
 
+/// What scripts keep in `item.data` goes into the object's data, each value as JSON, and comes back
+/// to them, also when they change it in place. The values they didn't change stay as they were, so
+/// an SVG's data-* attributes read as strings and stay text.
+fn data_goes_both_ways<E: Engine>() {
+    let (mut s, a, _) = document();
+    s.execute("select.set", &json!({"ids": [a.0]})).unwrap();
+    s.execute("object.setProps", &json!({"data": {"pivot": "60,100", "z": "3"}})).unwrap();
+    let data = |s: &Session, id: NodeId| node(s, id).extras().attrs.as_deref().map(|a| a.data.clone()).unwrap_or_default();
+    let pair = |k: &str, v: &str| (k.to_string(), v.to_string());
+    let output = run::<E>(
+        &mut s,
+        &format!(
+            "var item = project.getItemByKey({})\n\
+             console.log(typeof item.data.pivot, typeof item.data.z)\n\
+             item.data.profile = {{ width: 3, stops: [0, 1] }}\n\
+             delete item.data.z\n\
+             new Group({{ data: {{ outlineOf: {} }} }})",
+            a.0, a.0
+        ),
+    );
+    assert_eq!(output, ["string number"]);
+    assert_eq!(data(&s, a), [pair("pivot", "60,100"), pair("profile", r#"{"stops":[0,1],"width":3}"#)]);
+    let group = s.active().unwrap().doc.layers[0].children().unwrap().last().unwrap().id;
+    assert_eq!(data(&s, group), [pair("outlineOf", &a.0.to_string())]);
+    let output = run::<E>(&mut s, &format!("console.log(project.getItemByKey({}).data.profile.stops[1])", a.0));
+    assert_eq!(output, ["1"], "read again");
+}
+
 /// A script's new items take their effects into the document.
 fn new_items_have_effects<E: Engine>() {
     let (mut s, ..) = document();
@@ -1748,6 +1776,11 @@ macro_rules! engine_tests {
             #[test]
             fn untouched_effects_stay() {
                 super::untouched_effects_stay::<$engine>();
+            }
+
+            #[test]
+            fn data_goes_both_ways() {
+                super::data_goes_both_ways::<$engine>();
             }
 
             #[test]

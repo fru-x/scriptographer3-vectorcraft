@@ -676,8 +676,8 @@ fn children_key(node: &Node) -> &'static str {
     }
 }
 
-/// The attributes of an item Paper.js doesn't export whole: opacity, blend mode, text wrap and
-/// effects.
+/// The attributes of an item Paper.js doesn't export whole: opacity, blend mode, text wrap, effects
+/// and data.
 fn attributes<H: Clone>(call: &mut dyn Call<H>, item: &H) -> Result<Map<String, Json>, Error> {
     let mut props = Map::new();
     if let Value::Number(opacity) = call.get(item, "opacity")? {
@@ -702,6 +702,12 @@ fn attributes<H: Clone>(call: &mut dyn Call<H>, item: &H) -> Result<Map<String, 
         if !effects.is_empty() {
             props.insert("effects".into(), Json::Array(effects));
         }
+    }
+    let data = call.get(item, "data")?;
+    let globals = crate::dialog::globals(call)?;
+    let data = crate::dialog::to_json(call, &globals, &data)?;
+    if data.as_object().is_some_and(|data| !data.is_empty()) {
+        props.insert("data".into(), data);
     }
     Ok(props)
 }
@@ -729,7 +735,7 @@ pub fn apply(node: &mut Node, json: &Json, before: &Json) -> Result<(), Error> {
     Ok(())
 }
 
-/// Opacity, blend mode, text wrap and effects, where they differ from `before`.
+/// Opacity, blend mode, text wrap, effects and data, where they differ from `before`.
 fn apply_attributes(node: &mut Node, props: &Map<String, Json>, before: &Json) {
     let changed = |key: &str| props.get(key).filter(|v| Some(*v) != before.get(key));
     if let Some(opacity) = changed("opacity").and_then(Json::as_f64) {
@@ -761,6 +767,21 @@ fn apply_attributes(node: &mut Node, props: &Map<String, Json>, before: &Json) {
         }
         appearance.effects = list;
         node.appearance = appearance.into();
+    }
+    // The keys of `data` a script changed, each value as JSON; the others stay as they were:
+    let empty = Map::new();
+    let data = props.get("data").and_then(Json::as_object).unwrap_or(&empty);
+    let was = before.get("data").and_then(Json::as_object).unwrap_or(&empty);
+    if data != was {
+        node.edit_attrs(|attrs| {
+            attrs.data.retain(|(key, _)| data.contains_key(key));
+            for (key, value) in data.iter().filter(|(key, value)| was.get(*key) != Some(*value)) {
+                match attrs.data.iter_mut().find(|(k, _)| k == key) {
+                    Some(entry) => entry.1 = value.to_string(),
+                    None => attrs.data.push((key.clone(), value.to_string())),
+                }
+            }
+        });
     }
 }
 
