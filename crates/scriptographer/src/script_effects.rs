@@ -22,7 +22,7 @@ use crate::{Call, Engine, Error, HostFunction, Runtime, Scope, Value, call_bundl
 pub(crate) struct Defined {
     owner: u64,
     pub(crate) types: Vec<String>,
-    drawn: Option<Arc<Document>>,
+    pub(crate) drawn: Option<Arc<Document>>,
     failed: Vec<String>,
 }
 

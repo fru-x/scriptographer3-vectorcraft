@@ -1540,7 +1540,9 @@ fn write_back(
             Ok(result) => (result.clone(), behind),
             Err(_) => (json!({}), true),
         };
-        script.seen = Some(doc.clone());
+        // Objects an interaction kept the patch from changing are yet to be seen as the script left them:
+        let skipped = result["skipped"].as_array().is_some_and(|skipped| !skipped.is_empty());
+        script.seen = (!skipped).then(|| doc.clone());
         script.worker.send(Request::Applied { result, doc, selection, behind });
         applied?;
     }

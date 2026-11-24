@@ -326,6 +326,10 @@ impl<E: Engine> Runtime<E> {
         }
         (bound.doc, bound.selection) = (doc, selection);
         let project = bound.project.clone();
+        // What the effects drew of objects the patch left out isn't in the document: they draw again.
+        if result["skipped"].as_array().is_some_and(|skipped| !skipped.is_empty()) {
+            host.script_effects.drawn = None;
+        }
         drop(host);
         let ids = result["ids"].as_array().cloned().unwrap_or_default();
         self.engine.with_call(|call| {

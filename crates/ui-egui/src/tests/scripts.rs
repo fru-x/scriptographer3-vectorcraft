@@ -1438,6 +1438,50 @@ fn an_effect_follows_its_scripts_changes() {
     assert!(output.contains(&format!("[{size:.1},{size:.1}]")), "for the size it has now, {size}: {output}");
 }
 
+/// An object with a script's effect that the user drags with the Selection tool is drawn again
+/// where they leave it.
+#[test]
+fn an_effect_follows_a_drag_with_the_selection_tool() {
+    use vectorcraft_tools::PointerKind::{Down, Drag, Up};
+    let (mut app, id) = app();
+    let path = tempfile_path::Path::new(&format!(
+        "new Effect({{ type: 'same', label: 'Same', parameters: {{}}, onApply: function(event) {{ return event.art }} }})\n\
+         project.getItemByKey({id}).addEffect({{ type: 'same' }})\n\
+         script.keepAlive = true"
+    ));
+    app.run("ui.scriptographerRun", json!({ "path": path.0.to_string_lossy() })).unwrap();
+    let ctx = egui::Context::default();
+    let mut now = 0.5;
+    for _ in 0..3 {
+        now += 0.1;
+        crate::scripts::frame(&mut app, &ctx, now);
+    }
+    app.select_tool("selection");
+    let view = app.view_info();
+    for (kind, x) in [(Down, 20.0), (Drag, 30.0), (Drag, 60.0), (Up, 60.0)] {
+        let ev = vectorcraft_tools::PointerEvent {
+            kind,
+            pos: vectorcraft_geom::Point::new(x, 20.0),
+            mods: Default::default(),
+            backquote: false,
+            pressure: 1.0,
+            pen: None,
+        };
+        crate::canvas::dispatch(&mut app, &ev, view);
+        now += 0.1;
+        crate::scripts::frame(&mut app, &ctx, now);
+    }
+    for _ in 0..3 {
+        now += 0.1;
+        crate::scripts::frame(&mut app, &ctx, now);
+    }
+    let node = app.session.doc().unwrap().doc.node(vectorcraft_doc::NodeId(id)).unwrap().clone();
+    let left = node.geometric_bounds().unwrap().x0;
+    assert!(left > 10.0, "the drag moved it: {left}");
+    let output: vectorcraft_geom::PathData = serde_json::from_value(node.appearance.effects[0].params["_output"].clone()).unwrap();
+    assert_eq!(output.bounds().unwrap().x0, left, "and the effect drew it where it is");
+}
+
 /// An effect stored without parameters (a file may leave them out) is drawn like any other,
 /// where the script used to draw it again and again.
 #[test]
