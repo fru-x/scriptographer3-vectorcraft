@@ -1410,6 +1410,34 @@ fn an_effect_changes_nothing_but_what_it_draws() {
     assert_ne!(node.name.as_deref(), Some("meddled"), "and the object's name as it was");
 }
 
+/// An effect follows what its script changes: drawn again in the frame of each change, also while
+/// the script changes something in every frame, as a drag in its tool does.
+#[test]
+fn an_effect_follows_its_scripts_changes() {
+    let (mut app, id) = app();
+    let path = tempfile_path::Path::new(&format!(
+        "new Effect({{ type: 'square', label: 'Square', parameters: {{ size: {{ value: 1 }} }}, onApply: function(event) {{\n\
+             return new Path.Rectangle({{ point: [0, 0], size: [this.size, this.size], insert: false }})\n\
+         }} }})\n\
+         var item = project.getItemByKey({id})\n\
+         item.addEffect({{ type: 'square' }})\n\
+         function onFrame() {{ item.effects[0].size += 1 }}"
+    ));
+    app.run("ui.scriptographerRun", json!({ "path": path.0.to_string_lossy() })).unwrap();
+    let ctx = egui::Context::default();
+    for i in 0..4 {
+        crate::scripts::frame(&mut app, &ctx, 0.5 + f64::from(i) * 0.1);
+    }
+    let errors: Vec<&str> = app.scripts.log().iter().filter(|l| l.error).map(|l| l.text.as_str()).collect();
+    assert!(errors.is_empty(), "{errors:?}");
+    let doc = app.session.doc().unwrap().doc.clone();
+    let effect = &doc.node(vectorcraft_doc::NodeId(id)).unwrap().appearance.effects[0];
+    let size = effect.params["size"].as_f64().unwrap();
+    assert!(size > 2.0, "the script changed it in each frame: {size}");
+    let output = effect.params.get("_output").expect("the effect is drawn").to_string();
+    assert!(output.contains(&format!("[{size:.1},{size:.1}]")), "for the size it has now, {size}: {output}");
+}
+
 /// An effect stored without parameters (a file may leave them out) is drawn like any other,
 /// where the script used to draw it again and again.
 #[test]

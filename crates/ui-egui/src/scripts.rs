@@ -693,6 +693,8 @@ pub(crate) fn frame(app: &mut VectorcraftApp, ctx: &egui::Context, now: f64) {
 fn pump(app: &mut VectorcraftApp, script: &mut Running, mut frame: Option<f64>, until: Instant) -> Result<bool, String> {
     let now = frame.unwrap_or((app.last_time - script.started) * 1000.0);
     let mut sent = false;
+    // The document as the work sent in this frame found it:
+    let mut found = None;
     loop {
         // Waiting on a dialog, or for a document to work in: nothing else until then.
         if script.asking.is_some() || app.session.active().is_none() {
@@ -715,6 +717,7 @@ fn pump(app: &mut VectorcraftApp, script: &mut Running, mut frame: Option<f64>, 
                     }
                 },
             };
+            found = app.session.active().map(|d| d.doc.clone());
             send(app, script, now, work)?;
             sent = true;
         }
@@ -728,6 +731,14 @@ fn pump(app: &mut VectorcraftApp, script: &mut Running, mut frame: Option<f64>, 
         };
         if let Some(error) = error {
             return Err(error);
+        }
+        // Its effects draw in work that changes nothing; after work that changed the document they
+        // draw at once, so they follow what it changes, as a drag in its tool:
+        if script.effects
+            && kind != Kind::Draw
+            && found.take().is_some_and(|found| app.session.active().is_some_and(|d| !Arc::ptr_eq(&found, &d.doc)))
+        {
+            script.queued.push_back(Work::Draw);
         }
         if kind == Kind::Execute
             && tool
