@@ -1157,6 +1157,18 @@ fn data_goes_both_ways<E: Engine>() {
     assert_eq!(output, ["1"], "read again");
 }
 
+/// A change of what the document doesn't keep, a path's stroke profile, is no change: the script
+/// has no patch to send, so its effects draw in that turn.
+fn changes_the_document_cant_keep_change_nothing<E: Engine>() {
+    let (s, a, _) = document();
+    let st = s.active().unwrap();
+    let mut runtime = Runtime::<E>::new().unwrap();
+    let scope = runtime.create_scope(400.0, 300.0).unwrap();
+    runtime.bind(&scope, st.uid, st.doc.clone(), st.selection.clone()).unwrap();
+    runtime.execute(&scope, &format!("project.getItemByKey({}).strokeProfile = [{{ offset: 10, width: 2 }}]", a.0)).unwrap();
+    assert!(runtime.take_patches().unwrap().is_empty());
+}
+
 /// A script's new items take their effects into the document.
 fn new_items_have_effects<E: Engine>() {
     let (mut s, ..) = document();
@@ -1776,6 +1788,11 @@ macro_rules! engine_tests {
             #[test]
             fn untouched_effects_stay() {
                 super::untouched_effects_stay::<$engine>();
+            }
+
+            #[test]
+            fn changes_the_document_cant_keep_change_nothing() {
+                super::changes_the_document_cant_keep_change_nothing::<$engine>();
             }
 
             #[test]

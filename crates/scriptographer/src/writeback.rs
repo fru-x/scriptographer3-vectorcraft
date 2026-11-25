@@ -107,7 +107,7 @@ pub(crate) fn patch<H: Clone>(
             }
             Some(id) => {
                 if change.flags & change::CONTENT != 0 {
-                    replace.push(replaced(call, doc, node(doc, id)?, change, &mut news.images)?);
+                    replace.extend(replaced(call, doc, node(doc, id)?, change, &mut news.images)?);
                     replaced_ids.push(id);
                     if is_text(&change.class) {
                         texts.push(change.item.clone());
@@ -137,7 +137,7 @@ pub(crate) fn patch<H: Clone>(
     for (id, item) in compounds {
         if !replaced_ids.contains(&id) {
             let change = Change::read(call, item, change::CONTENT, false)?;
-            replace.push(replaced(call, doc, node(doc, id)?, &change, &mut news.images)?);
+            replace.extend(replaced(call, doc, node(doc, id)?, &change, &mut news.images)?);
             replaced_ids.push(id);
         }
     }
@@ -150,7 +150,7 @@ pub(crate) fn patch<H: Clone>(
                 && !replaced_ids.contains(&NodeId(key as u64))
             {
                 let change = Change::read(call, linked.clone(), change::CONTENT, false)?;
-                replace.push(replaced(call, doc, node(doc, NodeId(key as u64))?, &change, &mut news.images)?);
+                replace.extend(replaced(call, doc, node(doc, NodeId(key as u64))?, &change, &mut news.images)?);
                 replaced_ids.push(NodeId(key as u64));
                 texts.push(linked);
             }
@@ -564,15 +564,15 @@ fn node_json(node: &Node) -> Result<Json, Error> {
 }
 
 /// The node `original` with the item's changes: content for paths and compound paths, attributes
-/// for everything. Containers send no children, so they keep theirs. Text is written as
-/// [`text::written`] says, by where it is in its story.
+/// for everything, or `None` when that's the node as it is. Containers send no children, so they
+/// keep theirs. Text is written as [`text::written`] says, by where it is in its story.
 fn replaced<H: Clone>(
     call: &mut dyn Call<H>,
     doc: &Document,
     original: &Node,
     change: &Change<H>,
     images: &mut Vec<ImageBlob>,
-) -> Result<Json, Error> {
+) -> Result<Option<Json>, Error> {
     let mut node = original.clone();
     let before = item_json(original, &Default::default());
     match change.class.as_str() {
@@ -655,6 +655,10 @@ fn replaced<H: Clone>(
     };
     node.visible = matches!(call.get(&change.item, "visible")?, Value::Bool(true));
     node.locked = matches!(call.get(&change.item, "locked")?, Value::Bool(true));
+    // A change of what the document doesn't keep, such as a path's stroke profile, changes nothing:
+    if node == *original {
+        return Ok(None);
+    }
     // Sent without its children, a container keeps the ones it has; a compound path's are its
     // geometry. Left out before writing, as a layer may hold many:
     let is_container = !matches!(node.kind, NodeKind::Compound { .. }) && original.children().is_some();
@@ -665,7 +669,7 @@ fn replaced<H: Clone>(
     if is_container && let Some(kind) = json.get_mut("kind").and_then(Json::as_object_mut) {
         kind.remove(children_key(&node));
     }
-    Ok(json)
+    Ok(Some(json))
 }
 
 fn children_key(node: &Node) -> &'static str {
