@@ -111,10 +111,12 @@ pub fn fingerprint(path: &PathData, params: &Value) -> String {
     format!("{h:016x}")
 }
 
-/// What the script effect with `params` draws of `path`: its output while `path` is its input.
-pub(crate) fn apply(params: &Value, path: &PathData) -> Option<PathData> {
+/// What the script effect `id` with `params` draws of `path`: its output while `path` is its
+/// input. An interactive one draws its last output until its script draws it again, so an object
+/// the user drags doesn't lose it between the steps of the drag.
+pub(crate) fn apply(id: &str, params: &Value, path: &PathData) -> Option<PathData> {
     let input = params.get(INPUT)?.as_str()?;
-    if input != fingerprint(path, params) {
+    if input != fingerprint(path, params) && !is_interactive(id) {
         return None;
     }
     serde_json::from_value(params.get(OUTPUT)?.clone()).ok()

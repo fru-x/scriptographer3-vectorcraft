@@ -266,7 +266,7 @@ fn beneath_interaction(s: &mut Session, ops: &mut Ops, mut keep: Touched) -> Res
     };
     keep.children(None, &it.doc.layers, &st.doc.layers);
     keep.definitions(&it.doc, &st.doc);
-    take_interactive_effects(&mut st.doc, ops, &keep);
+    take_interactive_effects(&mut st.doc, &mut it.doc, ops, &keep);
     let skipped = leave_out(ops, &keep);
     // The same new ids in both documents: both count on from the higher of their counters. Both
     // change, or neither.
@@ -285,10 +285,12 @@ fn beneath_interaction(s: &mut Session, ops: &mut Ops, mut keep: Touched) -> Res
     Ok((ids, skipped))
 }
 
-/// What interactive script effects drew of the objects in `touched` that `ops` replaces, into
-/// `preview`, the document as the interaction has it, where they drew them for the object as it is
-/// there: they draw while the user drags it, as the rest of the patch waits.
-fn take_interactive_effects(preview: &mut Arc<Document>, ops: &Ops, touched: &Touched) {
+/// What interactive script effects drew of the objects in `touched` that `ops` replaces, where
+/// they drew them for the object as `preview`, the document as the interaction has it, has it: into
+/// `preview`, and into `base`, the document its steps start from, so the next step keeps it while
+/// the script draws it again. They draw while the user drags the object, as the rest of the patch
+/// waits.
+fn take_interactive_effects(preview: &mut Arc<Document>, base: &mut Arc<Document>, ops: &Ops, touched: &Touched) {
     use vectorcraft_render::effects::script;
     for (node, _) in ops.replaces.iter().filter(|(node, _)| touched.nodes.contains(&node.id)) {
         let Some(now) = preview.node(node.id) else {
@@ -301,22 +303,21 @@ fn take_interactive_effects(preview: &mut Arc<Document>, ops: &Ops, touched: &To
                 let is_for_now = now.appearance.effects.get(input.index).is_some_and(|e| e.id == effect.id)
                     && script::is_interactive(&effect.id)
                     && effect.params[script::INPUT] == json!(input.fingerprint);
-                is_for_now.then(|| (input.index, effect.params.clone()))
+                is_for_now.then(|| (input.index, effect.id.clone(), effect.params.clone()))
             })
             .collect();
-        if drawn.is_empty() {
-            continue;
-        }
-        let Some(now) = Arc::make_mut(preview).node_mut(node.id) else {
-            continue;
-        };
-        let mut appearance = (*now.appearance).clone();
-        for (index, params) in drawn {
-            if let Some(effect) = appearance.effects.get_mut(index) {
-                effect.params = params;
+        for doc in [&mut *preview, &mut *base] {
+            let Some(now) = Arc::make_mut(doc).node_mut(node.id).filter(|_| !drawn.is_empty()) else {
+                continue;
+            };
+            let mut appearance = (*now.appearance).clone();
+            for (index, id, params) in &drawn {
+                if let Some(effect) = appearance.effects.get_mut(*index).filter(|e| e.id == *id) {
+                    effect.params = params.clone();
+                }
             }
+            now.appearance = appearance.into();
         }
-        now.appearance = appearance.into();
     }
 }
 

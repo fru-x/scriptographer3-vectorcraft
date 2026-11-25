@@ -1532,6 +1532,59 @@ fn an_interactive_effect_draws_during_a_drag() {
     assert_eq!(drawn, 10.0, "drawn where it was before the drag, while it's at {at}");
 }
 
+/// An interactive effect keeps what it drew of the object the user drags from one step of the drag
+/// to the next, until its script draws it again, so it doesn't flicker back to the bare path.
+#[test]
+fn an_interactive_effect_keeps_its_drawing_between_the_steps_of_a_drag() {
+    use vectorcraft_tools::PointerKind::{Down, Drag};
+    let (mut app, id) = app();
+    let path = tempfile_path::Path::new(&format!(
+        "new Effect({{ type: 'aside', label: 'Aside', interactive: true, parameters: {{}}, onApply: function(event) {{\n\
+             event.art.position += [100, 0]\n\
+             return event.art\n\
+         }} }})\n\
+         project.getItemByKey({id}).addEffect({{ type: 'aside' }})\n\
+         script.keepAlive = true"
+    ));
+    app.run("ui.scriptographerRun", json!({ "path": path.0.to_string_lossy() })).unwrap();
+    let ctx = egui::Context::default();
+    let mut now = 0.5;
+    let mut frames = |app: &mut VectorcraftApp| {
+        for _ in 0..3 {
+            now += 0.1;
+            crate::scripts::frame(app, &ctx, now);
+        }
+    };
+    frames(&mut app);
+    app.select_tool("selection");
+    let view = app.view_info();
+    let drag = |app: &mut VectorcraftApp, kind, x| {
+        let ev = vectorcraft_tools::PointerEvent {
+            kind,
+            pos: vectorcraft_geom::Point::new(x, 20.0),
+            mods: Default::default(),
+            backquote: false,
+            pressure: 1.0,
+            pen: None,
+        };
+        crate::canvas::dispatch(app, &ev, view);
+        // The step's edit, which the tool computes on another thread, as the app draws it:
+        let r = app.session.finish_tool_edit();
+        crate::canvas::apply_requests(app, r);
+    };
+    // On what the effect draws, 100 pt to the right:
+    drag(&mut app, Down, 120.0);
+    frames(&mut app);
+    drag(&mut app, Drag, 130.0);
+    frames(&mut app);
+    // The next step, before the script's next turn:
+    drag(&mut app, Drag, 160.0);
+    let node = app.session.doc().unwrap().doc.node(vectorcraft_doc::NodeId(id)).unwrap().clone();
+    let (path, bounds) = (node.path_data().unwrap(), node.geometric_bounds().unwrap());
+    let shown = vectorcraft_effects::apply_geometry(&node.appearance.effects, path, bounds).bounds().unwrap();
+    assert!(shown.x0 > bounds.x0 + 50.0, "what the effect drew, not the bare path: {shown:?} for {bounds:?}");
+}
+
 /// An effect stored without parameters (a file may leave them out) is drawn like any other,
 /// where the script used to draw it again and again.
 #[test]
