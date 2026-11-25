@@ -428,7 +428,7 @@ fn a_script_effect_s_editor_follows_its_manifest() {
     use vectorcraft_effects::script;
     let manifest = json!({"id": "uiwobble", "name": "Wobble", "kind": "effect",
         "params": {"amount": {"type": "number", "min": 0, "max": 100, "default": 5, "label": "Amount", "unit": "pt"}}});
-    script::register(0, vectorcraft_plugins::Manifest::parse(manifest.to_string().as_bytes()).unwrap());
+    script::register(0, vectorcraft_plugins::Manifest::parse(manifest.to_string().as_bytes()).unwrap(), false);
     let entries = crate::menus::menu_entries(&VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default()));
     let entry = entries.iter().find(|e| e.path == ["Effect", "Scriptographer"] && e.label == "Wobble…").expect("effect listed");
     assert_eq!((entry.command.as_deref(), &entry.params), (Some("effect.dialog"), &json!({"effect": "script.uiwobble"})));

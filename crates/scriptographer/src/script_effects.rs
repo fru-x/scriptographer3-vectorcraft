@@ -33,24 +33,25 @@ impl Default for Defined {
     }
 }
 
-/// The natives core's `src/effects.js` talks through: `define(type, label, parameters)`, the
-/// parameters as JSON, and `forget(type)`.
+/// The natives core's `src/effects.js` talks through: `define(type, label, parameters,
+/// interactive)`, the parameters as JSON, and `forget(type)`.
 pub(crate) fn natives<E: Engine>(engine: &mut E) -> Result<Vec<(&'static str, E::Handle)>, Error> {
     let natives: [(&str, HostFunction<E::Handle>); 2] = [("define", define), ("forget", forget)];
     natives.into_iter().map(|(name, f)| Ok((name, engine.function(name, f)?))).collect()
 }
 
-/// `define(type, label, parameters)`: lists the effect in Effect › Scriptographer, in place of one
-/// of the same type.
+/// `define(type, label, parameters, interactive)`: lists the effect in Effect › Scriptographer, in
+/// place of one of the same type; `interactive` when it draws during interactions too.
 fn define<H: Clone>(call: &mut dyn Call<H>, _this: &Value<H>, args: &[Value<H>]) -> Result<Value<H>, Error> {
     let text = |call: &mut dyn Call<H>, i: usize| call.to_string(args.get(i).unwrap_or(&Value::Undefined));
     let (kind, label, parameters) = (text(call, 0)?, text(call, 1)?, text(call, 2)?);
+    let interactive = matches!(args.get(3), Some(Value::Bool(true)));
     let parameters: Json = serde_json::from_str(&parameters).unwrap_or(Json::Null);
     let manifest = manifest(&kind, &label, &parameters)?;
     let host = call.host()?;
     let mut host = host.borrow_mut();
     let defined = &mut host.script_effects;
-    script::register(defined.owner, manifest);
+    script::register(defined.owner, manifest, interactive);
     defined.types.retain(|t| *t != kind);
     defined.types.push(kind);
     // Its objects draw anew with the effect as it is now:

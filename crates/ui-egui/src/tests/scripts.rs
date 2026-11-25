@@ -1482,6 +1482,56 @@ fn an_effect_follows_a_drag_with_the_selection_tool() {
     assert_eq!(output.bounds().unwrap().x0, left, "and the effect drew it where it is");
 }
 
+/// Where an effect drew the object, and where the object is, in the middle of a drag with the
+/// Selection tool, for an effect that is `interactive` or not: the x of each's left edge.
+fn drawn_while_dragged(interactive: bool) -> (f64, f64) {
+    use vectorcraft_tools::PointerKind::{Down, Drag};
+    let (mut app, id) = app();
+    let path = tempfile_path::Path::new(&format!(
+        "new Effect({{ type: 'same', label: 'Same', interactive: {interactive}, parameters: {{}}, onApply: function(event) {{ return event.art }} }})\n\
+         project.getItemByKey({id}).addEffect({{ type: 'same' }})\n\
+         script.keepAlive = true"
+    ));
+    app.run("ui.scriptographerRun", json!({ "path": path.0.to_string_lossy() })).unwrap();
+    let ctx = egui::Context::default();
+    let mut now = 0.5;
+    let mut frames = |app: &mut VectorcraftApp, count| {
+        for _ in 0..count {
+            now += 0.1;
+            crate::scripts::frame(app, &ctx, now);
+        }
+    };
+    frames(&mut app, 3);
+    app.select_tool("selection");
+    let view = app.view_info();
+    for (kind, x) in [(Down, 20.0), (Drag, 30.0), (Drag, 60.0)] {
+        let ev = vectorcraft_tools::PointerEvent {
+            kind,
+            pos: vectorcraft_geom::Point::new(x, 20.0),
+            mods: Default::default(),
+            backquote: false,
+            pressure: 1.0,
+            pen: None,
+        };
+        crate::canvas::dispatch(&mut app, &ev, view);
+        frames(&mut app, 3);
+    }
+    let node = app.session.doc().unwrap().doc.node(vectorcraft_doc::NodeId(id)).unwrap().clone();
+    let output: vectorcraft_geom::PathData = serde_json::from_value(node.appearance.effects[0].params["_output"].clone()).unwrap();
+    (output.bounds().unwrap().x0, node.geometric_bounds().unwrap().x0)
+}
+
+/// An interactive effect draws the object the user drags as they drag it; another one waits for
+/// the drag to end.
+#[test]
+fn an_interactive_effect_draws_during_a_drag() {
+    let (drawn, at) = drawn_while_dragged(true);
+    assert!(at > 10.0, "the drag moved it: {at}");
+    assert_eq!(drawn, at, "drawn where it is");
+    let (drawn, at) = drawn_while_dragged(false);
+    assert_eq!(drawn, 10.0, "drawn where it was before the drag, while it's at {at}");
+}
+
 /// An effect stored without parameters (a file may leave them out) is drawn like any other,
 /// where the script used to draw it again and again.
 #[test]

@@ -87,7 +87,7 @@ fn a_script_effects_input_is_the_geometry_after_the_effects_before_it() {
 #[test]
 fn script_effects_are_listed_while_their_script_runs() {
     let before = script::revision();
-    script::register(1, manifest("listed"));
+    script::register(1, manifest("listed"), false);
     assert_ne!(script::revision(), before);
     let info = effect_info("script.listed").unwrap();
     assert_eq!((info.label, info.menu), ("Wobble…", &["Effect", "Scriptographer"][..]));
@@ -105,12 +105,12 @@ fn script_effects_are_listed_while_their_script_runs() {
 /// ended: the newer one's is listed, once, and the type stays listed until both have ended.
 #[test]
 fn script_effects_stay_while_a_runtime_defines_them() {
-    script::register(1, manifest("redefined"));
-    script::register(2, manifest("redefined"));
+    script::register(1, manifest("redefined"), false);
+    script::register(2, manifest("redefined"), false);
     assert_eq!(script::list().iter().filter(|m| m.id == "redefined").count(), 1);
     script::unregister(1, "redefined");
     assert!(effect_info("script.redefined").is_some(), "the second runtime's");
-    script::register(1, manifest("redefined"));
+    script::register(1, manifest("redefined"), false);
     script::unregister(1, "redefined");
     assert!(effect_info("script.redefined").is_some(), "the second runtime's, again");
     script::unregister(2, "redefined");

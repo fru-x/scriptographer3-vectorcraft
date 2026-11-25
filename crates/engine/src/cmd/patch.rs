@@ -20,7 +20,7 @@ pub fn specs() -> Vec<CommandSpec> {
         "Patch Document",
         [],
         None,
-        "{label?: undo step name (default \"Edit\"), extend?: true adds to the newest undo step instead of recording one (for a caller whose last edit that step is), remove?: [ids], insert?: [{parent: id|null|{new: k} (null: the layer list; {new: k}: the k-th insert, an earlier one), index?: position among the parent's children (bottom first; default: on top), node: object JSON as document.node returns it (its ids are replaced with new ones)}], replace?: [object JSON with its id (a container sent without its children keeps them)], order?: [{parent: id|null|{new: k}, children: [id|{new: k}]}] (the parent's children become exactly these, bottom first; listed objects from elsewhere move here; {new: k} places the k-th insert), threads?: [[id|{new: k}]] (each list of frames, area type or type on a path, becomes one thread, in that order, which the threads they were in lose; a list of one frame takes it out of its thread; the stories flow again), keep?: {objects: [ids], lists: [parent id|null], patterns?: [names], symbols?: [names]} (what changed since the caller's copy of the document, which the patch leaves out), patterns?: [{name, tile?: [x, y, width, height], art?: [object JSON]}] (a new pattern swatch, or an existing one's tile and art replaced and its other options kept; a tile given turns Size Tile to Art off), symbols?: [{name, art: object JSON}] (a new symbol, or an existing one's art, in the symbol's space, replaced: its instances keep their transforms), images?: [{mime: image/…, dataBase64}] (encoded images the objects show, each kept under its content key, img and the 64-bit FNV-1a hash of its bytes in 16 hex digits, which an image object's key names)} applied in that order, the images, patterns and symbols first, as one undo step; during an interaction (a drag) it applies beneath it, leaving out the objects, patterns and symbols the interaction changed too → {ids: [the new id of each insert], skipped?: [the objects left out], skippedPatterns?: [names], skippedSymbols?: [names]}",
+        "{label?: undo step name (default \"Edit\"), extend?: true adds to the newest undo step instead of recording one (for a caller whose last edit that step is), remove?: [ids], insert?: [{parent: id|null|{new: k} (null: the layer list; {new: k}: the k-th insert, an earlier one), index?: position among the parent's children (bottom first; default: on top), node: object JSON as document.node returns it (its ids are replaced with new ones)}], replace?: [object JSON with its id (a container sent without its children keeps them)], order?: [{parent: id|null|{new: k}, children: [id|{new: k}]}] (the parent's children become exactly these, bottom first; listed objects from elsewhere move here; {new: k} places the k-th insert), threads?: [[id|{new: k}]] (each list of frames, area type or type on a path, becomes one thread, in that order, which the threads they were in lose; a list of one frame takes it out of its thread; the stories flow again), keep?: {objects: [ids], lists: [parent id|null], patterns?: [names], symbols?: [names]} (what changed since the caller's copy of the document, which the patch leaves out), patterns?: [{name, tile?: [x, y, width, height], art?: [object JSON]}] (a new pattern swatch, or an existing one's tile and art replaced and its other options kept; a tile given turns Size Tile to Art off), symbols?: [{name, art: object JSON}] (a new symbol, or an existing one's art, in the symbol's space, replaced: its instances keep their transforms), images?: [{mime: image/…, dataBase64}] (encoded images the objects show, each kept under its content key, img and the 64-bit FNV-1a hash of its bytes in 16 hex digits, which an image object's key names)} applied in that order, the images, patterns and symbols first, as one undo step; during an interaction (a drag) it applies beneath it, leaving out the objects, patterns and symbols the interaction changed too (what an interactive script effect drew of one of those objects as the interaction has it goes into it) → {ids: [the new id of each insert], skipped?: [the objects left out], skippedPatterns?: [names], skippedSymbols?: [names]}",
         has_doc,
         patch
     )]
@@ -266,6 +266,7 @@ fn beneath_interaction(s: &mut Session, ops: &mut Ops, mut keep: Touched) -> Res
     };
     keep.children(None, &it.doc.layers, &st.doc.layers);
     keep.definitions(&it.doc, &st.doc);
+    take_interactive_effects(&mut st.doc, ops, &keep);
     let skipped = leave_out(ops, &keep);
     // The same new ids in both documents: both count on from the higher of their counters. Both
     // change, or neither.
@@ -282,6 +283,41 @@ fn beneath_interaction(s: &mut Session, ops: &mut Ops, mut keep: Touched) -> Res
     st.doc = preview;
     st.revision += 1;
     Ok((ids, skipped))
+}
+
+/// What interactive script effects drew of the objects in `touched` that `ops` replaces, into
+/// `preview`, the document as the interaction has it, where they drew them for the object as it is
+/// there: they draw while the user drags it, as the rest of the patch waits.
+fn take_interactive_effects(preview: &mut Arc<Document>, ops: &Ops, touched: &Touched) {
+    use vectorcraft_render::effects::script;
+    for (node, _) in ops.replaces.iter().filter(|(node, _)| touched.nodes.contains(&node.id)) {
+        let Some(now) = preview.node(node.id) else {
+            continue;
+        };
+        let drawn: Vec<_> = script::inputs(now)
+            .into_iter()
+            .filter_map(|input| {
+                let effect = node.appearance.effects.get(input.index)?;
+                let is_for_now = now.appearance.effects.get(input.index).is_some_and(|e| e.id == effect.id)
+                    && script::is_interactive(&effect.id)
+                    && effect.params[script::INPUT] == json!(input.fingerprint);
+                is_for_now.then(|| (input.index, effect.params.clone()))
+            })
+            .collect();
+        if drawn.is_empty() {
+            continue;
+        }
+        let Some(now) = Arc::make_mut(preview).node_mut(node.id) else {
+            continue;
+        };
+        let mut appearance = (*now.appearance).clone();
+        for (index, params) in drawn {
+            if let Some(effect) = appearance.effects.get_mut(index) {
+                effect.params = params;
+            }
+        }
+        now.appearance = appearance.into();
+    }
 }
 
 /// Leaves what's in `touched` out of `ops`. Returns what it left out.

@@ -21,9 +21,17 @@ pub const OUTPUT: &str = "_output";
 /// The parameter that holds the [`fingerprint`] of what the script drew it from.
 pub const INPUT: &str = "_input";
 
-/// The script effects, each with the number of the runtime that defined it. Runtimes that define
-/// the same type each keep theirs: the newest is the one listed.
-static EFFECTS: RwLock<Vec<(u64, Arc<Manifest>)>> = RwLock::new(Vec::new());
+/// A script effect: the number of the runtime that defined it, its manifest, and whether it draws
+/// during interactions too ([`is_interactive`]).
+struct Defined {
+    owner: u64,
+    manifest: Arc<Manifest>,
+    interactive: bool,
+}
+
+/// The script effects. Runtimes that define the same type each keep theirs: the newest is the one
+/// listed.
+static EFFECTS: RwLock<Vec<Defined>> = RwLock::new(Vec::new());
 static REVISION: AtomicU64 = AtomicU64::new(0);
 
 /// The script effect's type in `id` (`script.wobble` → `wobble`).
@@ -37,11 +45,12 @@ pub fn effect_id(kind: &str) -> String {
 }
 
 /// Adds the script effect `manifest` describes, its id being its type, as the runtime `owner`'s, in
-/// place of the one it defined of that type before.
-pub fn register(owner: u64, manifest: Manifest) {
+/// place of the one it defined of that type before; `interactive` when it draws during
+/// interactions too.
+pub fn register(owner: u64, manifest: Manifest, interactive: bool) {
     let mut effects = EFFECTS.write().unwrap_or_else(|e| e.into_inner());
-    effects.retain(|(other, m)| *other != owner || m.id != manifest.id);
-    effects.push((owner, Arc::new(manifest)));
+    effects.retain(|d| d.owner != owner || d.manifest.id != manifest.id);
+    effects.push(Defined { owner, manifest: Arc::new(manifest), interactive });
     REVISION.fetch_add(1, Ordering::Relaxed);
 }
 
@@ -50,7 +59,7 @@ pub fn register(owner: u64, manifest: Manifest) {
 pub fn unregister(owner: u64, kind: &str) {
     let mut effects = EFFECTS.write().unwrap_or_else(|e| e.into_inner());
     let count = effects.len();
-    effects.retain(|(other, m)| *other != owner || m.id != kind);
+    effects.retain(|d| d.owner != owner || d.manifest.id != kind);
     if effects.len() != count {
         REVISION.fetch_add(1, Ordering::Relaxed);
     }
@@ -59,14 +68,23 @@ pub fn unregister(owner: u64, kind: &str) {
 /// The script effects running scripts define, in the order they were defined.
 pub fn list() -> Vec<Arc<Manifest>> {
     let effects = EFFECTS.read().unwrap_or_else(|e| e.into_inner());
-    let newest = |at: usize, id: &str| effects.get(at + 1..).is_none_or(|later| !later.iter().any(|(_, m)| m.id == id));
-    effects.iter().enumerate().filter(|(at, (_, m))| newest(*at, &m.id)).map(|(_, (_, m))| m.clone()).collect()
+    let newest = |at: usize, id: &str| effects.get(at + 1..).is_none_or(|later| !later.iter().any(|d| d.manifest.id == id));
+    effects.iter().enumerate().filter(|(at, d)| newest(*at, &d.manifest.id)).map(|(_, d)| d.manifest.clone()).collect()
 }
 
 /// The manifest of the script effect `id`, while its script runs.
 pub fn manifest(id: &str) -> Option<Arc<Manifest>> {
     let kind = script_type(id)?;
-    EFFECTS.read().unwrap_or_else(|e| e.into_inner()).iter().rfind(|(_, m)| m.id == kind).map(|(_, m)| m.clone())
+    EFFECTS.read().unwrap_or_else(|e| e.into_inner()).iter().rfind(|d| d.manifest.id == kind).map(|d| d.manifest.clone())
+}
+
+/// Whether the script effect `id` draws during interactions too, while its script runs: what it
+/// drew of an object the user drags then goes into the object as the drag has it.
+pub fn is_interactive(id: &str) -> bool {
+    let Some(kind) = script_type(id) else {
+        return false;
+    };
+    EFFECTS.read().unwrap_or_else(|e| e.into_inner()).iter().rfind(|d| d.manifest.id == kind).is_some_and(|d| d.interactive)
 }
 
 /// Changes whenever a script effect is defined or removed.
