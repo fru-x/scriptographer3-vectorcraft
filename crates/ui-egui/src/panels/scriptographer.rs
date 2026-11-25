@@ -29,7 +29,7 @@ const ROW: f32 = 22.0;
 const INDENT: f32 = 14.0;
 /// Whether the panel menu has Reload: hidden for now, as the folders are listed again by themselves
 /// when the app comes to the front.
-const SHOW_RELOAD: bool = false;
+const SHOW_RELOAD: bool = true;
 /// The bottom bars' buttons, 3 points under the line above them and 4 above the panel's edge: the
 /// panel's bottom margin shows 3 of those, the bar has the rest.
 pub(super) const BUTTON: f32 = 24.0;
