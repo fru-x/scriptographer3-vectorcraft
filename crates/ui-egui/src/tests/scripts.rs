@@ -1945,3 +1945,13 @@ fn the_vektor_example_labels_its_vector() {
     }
     assert_eq!(labels(&app), ["0°", "150", "x: 150"]);
 }
+
+/// A comment or a string that names a handler doesn't make the script a tool.
+#[test]
+fn a_mention_in_a_comment_does_not_make_a_script_a_tool() {
+    assert!(!crate::scripts::is_tool("// onMouseDown\nconsole.log('x')"));
+    assert!(!crate::scripts::is_tool("/* onKeyDown */"));
+    assert!(!crate::scripts::is_tool("var s = 'tool.';"));
+    assert!(crate::scripts::is_tool("function onMouseDown(event) {}"));
+    assert!(crate::scripts::is_tool("tool.minDistance = 5;"));
+}
