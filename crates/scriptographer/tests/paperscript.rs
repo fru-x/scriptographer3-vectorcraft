@@ -50,6 +50,22 @@ fn paperscript_operators_work_on_points<E: Engine>() {
     assert_eq!(runtime.take_output(), ["{ x: 11, y: 22 } { x: 20, y: 40 }"]);
 }
 
+fn old_colour_names_make_colors<E: Engine>() {
+    let mut runtime = Runtime::<E>::new().unwrap();
+    let scope = runtime.create_scope(800.0, 600.0).unwrap();
+    runtime
+        .execute(
+            &scope,
+            "new Path.Circle({ center: [50, 50], radius: 20, fillColor: new CMYKColor(0, 1, 1, 0) })\n\
+             console.log(new RGBColor(1, 0, 0).red, new GrayColor(0.25).gray)",
+        )
+        .unwrap();
+    assert_eq!(runtime.take_output(), ["1 0.25"]);
+
+    let project: Value = serde_json::from_str(&runtime.export_json(&scope).unwrap()).unwrap();
+    assert_eq!(project[0][1]["children"][0][1]["fillColor"], serde_json::json!([1, 0, 0]));
+}
+
 fn script_errors_are_returned<E: Engine>() {
     let mut runtime = Runtime::<E>::new().unwrap();
     let scope = runtime.create_scope(800.0, 600.0).unwrap();
@@ -2784,6 +2800,11 @@ macro_rules! engine_tests {
             #[test]
             fn paperscript_operators_work_on_points() {
                 super::paperscript_operators_work_on_points::<$engine>();
+            }
+
+            #[test]
+            fn old_colour_names_make_colors() {
+                super::old_colour_names_make_colors::<$engine>();
             }
 
             #[test]
