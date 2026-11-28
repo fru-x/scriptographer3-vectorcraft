@@ -415,7 +415,59 @@ fn init_scripts(folder: &Path, depth: usize, count: &mut usize) -> Vec<PathBuf> 
 /// PaperScript makes before giving a script its tool.
 pub fn is_tool(source: &str) -> bool {
     const HANDLERS: [&str; 6] = ["onMouseDown", "onMouseUp", "onMouseDrag", "onMouseMove", "onKeyDown", "onKeyUp"];
-    source.contains("tool.") || HANDLERS.iter().any(|h| source.contains(h))
+    let code = without_comments_and_strings(source);
+    code.contains("tool.") || HANDLERS.iter().any(|h| defines(&code, h))
+}
+
+/// `source` without its comments, string and template literals: a handler's name in them doesn't
+/// make the script a tool.
+fn without_comments_and_strings(source: &str) -> String {
+    let mut out = String::with_capacity(source.len());
+    let mut chars = source.chars().peekable();
+    while let Some(c) = chars.next() {
+        match c {
+            '/' if chars.peek() == Some(&'/') => {
+                for c in chars.by_ref() {
+                    if c == '\n' {
+                        out.push('\n');
+                        break;
+                    }
+                }
+            }
+            '/' if chars.peek() == Some(&'*') => {
+                chars.next();
+                let mut star = false;
+                for c in chars.by_ref() {
+                    if star && c == '/' {
+                        break;
+                    }
+                    star = c == '*';
+                }
+            }
+            '"' | '\'' | '`' => {
+                let quote = c;
+                while let Some(c) = chars.next() {
+                    if c == '\\' {
+                        chars.next();
+                    } else if c == quote {
+                        break;
+                    }
+                }
+            }
+            _ => out.push(c),
+        }
+    }
+    out
+}
+
+/// Whether `code` defines `name`: a whole word followed by `=`, `(` or `:`.
+fn defines(code: &str, name: &str) -> bool {
+    code.match_indices(name).any(|(i, _)| {
+        let before = code[..i].chars().next_back();
+        let after = code[i + name.len()..].trim_start();
+        !before.is_some_and(|c| c.is_alphanumeric() || c == '_' || c == '$')
+            && (after.starts_with('=') || after.starts_with('(') || after.starts_with(':'))
+    })
 }
 
 /// `ui.scriptographerRun`: run the script at `path`, or the file the user picks. A script that is still
