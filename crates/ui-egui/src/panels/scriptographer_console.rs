@@ -113,11 +113,11 @@ fn resize_handle(ui: &mut Ui, lines: &mut usize, line_height: f32, most: usize) 
         *lines = start.saturating_add_signed(((pointer.y - y) / line_height).round() as isize);
     }
     if response.has_focus() {
-        ui.input(|i| {
-            if i.key_pressed(egui::Key::ArrowUp) {
+        ui.input_mut(|i| {
+            if i.consume_key(egui::Modifiers::NONE, egui::Key::ArrowUp) {
                 *lines = lines.saturating_sub(1);
             }
-            if i.key_pressed(egui::Key::ArrowDown) {
+            if i.consume_key(egui::Modifiers::NONE, egui::Key::ArrowDown) {
                 *lines += 1;
             }
         });
