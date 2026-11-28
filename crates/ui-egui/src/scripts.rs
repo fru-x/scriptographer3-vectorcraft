@@ -444,12 +444,26 @@ fn without_comments_and_strings(source: &str) -> String {
                     star = c == '*';
                 }
             }
-            '"' | '\'' | '`' => {
+            '"' | '\'' => {
                 let quote = c;
                 while let Some(c) = chars.next() {
                     if c == '\\' {
                         chars.next();
                     } else if c == quote {
+                        break;
+                    } else if c == '\n' {
+                        // A string can't hold a newline, so this quote opened a regular expression's
+                        // character class, or one that never closes: the code after it counts.
+                        out.push('\n');
+                        break;
+                    }
+                }
+            }
+            '`' => {
+                while let Some(c) = chars.next() {
+                    if c == '\\' {
+                        chars.next();
+                    } else if c == '`' {
                         break;
                     }
                 }

@@ -1955,3 +1955,15 @@ fn a_mention_in_a_comment_does_not_make_a_script_a_tool() {
     assert!(crate::scripts::is_tool("function onMouseDown(event) {}"));
     assert!(crate::scripts::is_tool("tool.minDistance = 5;"));
 }
+
+/// A regular expression that holds a quote ends at the line's end, not at the next quote in the
+/// file: the handler after it still makes the script a tool.
+#[test]
+fn a_regex_with_a_quote_does_not_hide_the_handler_after_it() {
+    assert!(crate::scripts::is_tool(
+        r#"var quotes = /["']/g;
+function onMouseDown(event) {
+    console.log(event.point);
+}"#
+    ));
+}
