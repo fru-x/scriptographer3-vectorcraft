@@ -42,6 +42,9 @@ use crate::{FilePick, VectorcraftApp};
 /// Script files.
 const EXTS: &[&str] = &["js", "pjs"];
 
+/// The throwaway project a shutdown uses when no document is open; no real document has this uid.
+const SHUTDOWN_UID: u64 = u64::MAX;
+
 /// How long the app waits for a script it runs before it goes on, and the script with it.
 const RUN_WAIT: Duration = Duration::from_secs(2);
 
@@ -596,6 +599,10 @@ pub(crate) fn notify(app: &mut VectorcraftApp, handler: &'static str) {
     scripts.extend(app.scripts.console.take());
     let until = Instant::now() + FRAME_WAIT;
     scripts.retain_mut(|script| {
+        if handler == "onShutdown" && app.session.active().is_none() {
+            // Nothing else can run without a document, and Quit ends the session anyway.
+            script.queued.clear();
+        }
         script.queued.push_back(Work::Handler(handler));
         let result = pump(app, script, None, until);
         if let Err(e) = &result {
@@ -762,8 +769,9 @@ fn pump(app: &mut VectorcraftApp, script: &mut Running, mut frame: Option<f64>, 
     // The document as the work sent in this frame found it:
     let mut found = None;
     loop {
-        // Waiting on a dialog, or for a document to work in: nothing else until then.
-        if script.asking.is_some() || app.session.active().is_none() {
+        // Waiting on a dialog, or for a document to work in: nothing else until then. A shutdown
+        // handler needs no document and runs even when the last one closed.
+        if script.asking.is_some() || (app.session.active().is_none() && !matches!(script.queued.front(), Some(Work::Handler("onShutdown")))) {
             return Ok(true);
         }
         if script.busy.is_none() {
@@ -839,15 +847,22 @@ fn is_drawn_stale(app: &VectorcraftApp, script: &Running) -> bool {
 
 /// Sends `work` to the script at `now` (milliseconds since it started), with the active document.
 fn send(app: &mut VectorcraftApp, script: &mut Running, now: f64, work: Work) -> Result<(), String> {
-    let index = match &work {
-        Work::Switch(uid) => app.session.documents().iter().position(|d| d.uid == *uid),
-        _ => app.session.active_index(),
+    // With no document open, `onShutdown` still calls its handler in a throwaway project; any
+    // changes it makes have no document to go back to and `write_back` drops them.
+    let no_document = matches!(&work, Work::Handler("onShutdown")) && app.session.active().is_none();
+    let (uid, doc, selection, artboard, index) = if no_document {
+        (SHUTDOWN_UID, Arc::new(Document::new(1.0, 1.0)), Selection::default(), 0, None)
+    } else {
+        let index = match &work {
+            Work::Switch(uid) => app.session.documents().iter().position(|d| d.uid == *uid),
+            _ => app.session.active_index(),
+        };
+        let index = index.ok_or("no document is open")?;
+        let state = app.session.documents().get(index).ok_or("no document is open")?;
+        // The document's view has its active artboard, the script's `project.activeArtboard`.
+        let artboard = app.views.get(index).map_or(0, |v| v.artboard);
+        (state.uid, state.doc.clone(), state.selection.clone(), artboard, Some(index))
     };
-    let index = index.ok_or("no document is open")?;
-    let state = app.session.documents().get(index).ok_or("no document is open")?;
-    let (uid, doc, selection) = (state.uid, state.doc.clone(), state.selection.clone());
-    // The document's view has its active artboard, the script's `project.activeArtboard`.
-    let artboard = app.views.get(index).map_or(0, |v| v.artboard);
     script.busy = Some(match &work {
         Work::Execute(_) => Kind::Execute,
         Work::Frame => Kind::Frame,
@@ -874,7 +889,7 @@ fn send(app: &mut VectorcraftApp, script: &mut Running, now: f64, work: Work) ->
     script.selection = Some(selection.clone());
     script.uid = Some(uid);
     // Its draw handlers draw for the view of the active document, the one the canvas shows:
-    let view = app.scripts.view.filter(|_| app.session.active_index() == Some(index));
+    let view = index.and_then(|index| app.scripts.view.filter(|_| app.session.active_index() == Some(index)));
     script.worker.send(Request::Run { uid, doc, selection, artboard, style, now, view, work });
     Ok(())
 }

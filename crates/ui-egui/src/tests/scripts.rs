@@ -443,8 +443,8 @@ fn a_tool_script_gets_the_plain_keys() {
     assert_eq!(left, [key(egui::Key::V, egui::Modifiers::COMMAND)], "Cmd+V stays the app's");
 }
 
-/// Quit runs the scripts' `onShutdown` once the unsaved documents are answered for. (With no
-/// document left open, it doesn't run: a limit `docs/gaps.md` G6 lists.)
+/// Quit runs the scripts' `onShutdown` once the unsaved documents are answered for, even with no
+/// document left open.
 #[test]
 fn quit_shuts_the_scripts_down() {
     let (mut app, _) = app();
@@ -458,6 +458,18 @@ fn quit_shuts_the_scripts_down() {
     app.ui.dialog.as_mut().unwrap().fields.insert("discard".into(), json!(true));
     crate::dialogs::confirm(&mut app).unwrap();
     assert!(shut(&app));
+}
+
+#[test]
+fn quit_shuts_the_scripts_down_with_no_document_open() {
+    let (mut app, _) = app();
+    let path = tempfile_path::Path::new("script.keepAlive = true\nfunction onFrame() {}\nfunction onShutdown() { console.log('shut down') }");
+    app.run("ui.scriptographerRun", json!({ "path": path.0.to_string_lossy() })).unwrap();
+    app.session.active_mut().unwrap().mark_saved();
+    app.run("file.close", json!({})).unwrap();
+    assert!(app.session.documents().is_empty());
+    app.run("app.quit", json!({})).unwrap();
+    assert!(app.scripts.log().iter().any(|l| l.text == "shut down"));
 }
 
 /// The window's close button runs the scripts' `onShutdown`, as Quit does.
