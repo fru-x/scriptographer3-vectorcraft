@@ -17,6 +17,7 @@ mod blob;
 mod broadcast_channel;
 mod canvas;
 mod clone;
+mod colors;
 #[cfg(not(target_arch = "wasm32"))]
 mod compression;
 mod css_color;
@@ -428,6 +429,7 @@ impl<E: Engine> Runtime<E> {
         exception::install(&mut engine, &global)?;
         dialog::install(&mut engine, &global)?;
         install_globals(&mut engine)?;
+        colors::install(&mut engine)?;
         let paper = engine.with_call(|call| object(call, &global, "paper"))?;
         let mut runtime = Self { engine, host, paper };
         clone::install(&mut runtime.engine, &global)?;
